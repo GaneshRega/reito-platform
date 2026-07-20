@@ -1,26 +1,59 @@
 @import "tailwindcss";
 
+/* ── Spec design tokens ──────────────────────────────────── */
+@theme {
+  /* Ground */
+  --color-paper:      #F7F4EF;
+  --color-paper-warm: #EFE9E0;
+  --color-paper-cool: #FBFAF8;
+
+  /* Ink */
+  --color-ink:        #211D19;
+  --color-ink-soft:   #5C554C;
+  --color-ink-faint:  #9A9187;
+
+  /* Accent — state only, never decoration */
+  --color-gold:       #A8863E;
+  --color-gold-soft:  #EDE2C7;
+
+  /* Radii */
+  --radius-card:  14px;
+  --radius-chip:  999px;
+  --radius-input: 999px;
+
+  /* Font */
+  --font-figtree: var(--font-figtree);
+}
+
+/* CSS custom properties (for inline styles / JS access) */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --paper:      #F7F4EF;
+  --paper-warm: #EFE9E0;
+  --paper-cool: #FBFAF8;
+  --ink:        #211D19;
+  --ink-soft:   #5C554C;
+  --ink-faint:  #9A9187;
+  --gold:       #A8863E;
+  --gold-soft:  #EDE2C7;
+  --rule:       rgba(33, 29, 25, 0.10);
+  --lift:       0 1px 2px rgba(33,29,25,.04), 0 12px 32px rgba(33,29,25,.07);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-figtree), system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
 }
+
+/* Keyboard focus rings in gold — visible, never hidden */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* Leaflet — keep tiles below UI chrome */
+.leaflet-pane       { z-index: 0 !important; }
+.leaflet-control-container { z-index: 1 !important; }

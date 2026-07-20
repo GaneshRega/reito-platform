@@ -1,0 +1,90 @@
+[
+  {
+    "id": "iso-001",
+    "buyer": { "name": "Priya Mehta", "initials": "PM" },
+    "location": "Jubilee Hills, Hyderabad",
+    "budget": 45000000,
+    "timeline": 18,
+    "propertyType": "Villa",
+    "perks": ["Private garden", "4+ beds", "Gated community"],
+    "headline": "Looking for a quiet villa with a lawn and room for the dog to run.",
+    "createdAt": "2026-06-15"
+  },
+  {
+    "id": "iso-002",
+    "buyer": { "name": "Arjun Reddy", "initials": "AR" },
+    "location": "Gachibowli, Hyderabad",
+    "budget": 22000000,
+    "timeline": 12,
+    "propertyType": "Apartment",
+    "perks": ["Gym", "Metro nearby", "Power backup"],
+    "headline": "Upgrading from a 2BHK. Need the third room for parents.",
+    "createdAt": "2026-06-28"
+  },
+  {
+    "id": "iso-003",
+    "buyer": { "name": "Kavitha Iyer", "initials": "KI" },
+    "location": "Banjara Hills, Hyderabad",
+    "budget": 80000000,
+    "timeline": 24,
+    "propertyType": "Independent House",
+    "perks": ["Terrace access", "Servant room", "Corner unit"],
+    "headline": "Returning from the US. Want an old Banjara bungalow we can restore slowly.",
+    "createdAt": "2026-07-01"
+  },
+  {
+    "id": "iso-004",
+    "buyer": { "name": "Rohit Sharma", "initials": "RS" },
+    "location": "Koramangala, Bengaluru",
+    "budget": 18000000,
+    "timeline": 9,
+    "propertyType": "Apartment",
+    "perks": ["Balcony", "Gated community", "Lift"],
+    "headline": "Flexible on size, fixed on Koramangala. Work from home 5 days a week.",
+    "createdAt": "2026-07-05"
+  },
+  {
+    "id": "iso-005",
+    "buyer": { "name": "Sneha Nair", "initials": "SN" },
+    "location": "Kondapur, Hyderabad",
+    "budget": 15000000,
+    "timeline": 15,
+    "propertyType": "Apartment",
+    "perks": ["Modular kitchen", "Park facing", "Power backup"],
+    "headline": "First home. Budget is firm, locality is negotiable if the apartment is right.",
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "iso-006",
+    "buyer": { "name": "Vikram Patel", "initials": "VP" },
+    "location": "Golf Course Road, Gurgaon",
+    "budget": 60000000,
+    "timeline": 36,
+    "propertyType": "Builder Floor",
+    "perks": ["Covered parking", "Corner unit", "Vaastu compliant"],
+    "headline": "Not in a hurry. Will wait for exactly the right floor on GCR.",
+    "createdAt": "2026-05-20"
+  },
+  {
+    "id": "iso-007",
+    "buyer": { "name": "Divya Menon", "initials": "DM" },
+    "location": "Powai, Mumbai",
+    "budget": 35000000,
+    "timeline": 12,
+    "propertyType": "Apartment",
+    "perks": ["Lake view", "Gym", "Gated community"],
+    "headline": "Powai only — specifically looking for a lake-facing unit above the 15th floor.",
+    "createdAt": "2026-06-10"
+  },
+  {
+    "id": "iso-008",
+    "buyer": { "name": "Aditya Kumar", "initials": "AK" },
+    "location": "Narsingi, Hyderabad",
+    "budget": 20000000,
+    "timeline": 18,
+    "propertyType": "Apartment",
+    "perks": ["Metro nearby", "Clubhouse", "Balcony"],
+    "headline": "Work near Financial District, want a short commute without paying Gachibowli prices.",
+    "createdAt": "2026-07-12"
+  }
+]

@@ -1,0 +1,38 @@
+{
+  "localities": [
+    { "name": "Jubilee Hills",   "city": "Hyderabad" },
+    { "name": "Banjara Hills",   "city": "Hyderabad" },
+    { "name": "Madhapur",        "city": "Hyderabad" },
+    { "name": "Gachibowli",      "city": "Hyderabad" },
+    { "name": "Kondapur",        "city": "Hyderabad" },
+    { "name": "Kokapet",         "city": "Hyderabad" },
+    { "name": "Nallagandla",     "city": "Hyderabad" },
+    { "name": "Kukatpally",      "city": "Hyderabad" },
+    { "name": "Miyapur",         "city": "Hyderabad" },
+    { "name": "Begumpet",        "city": "Hyderabad" },
+    { "name": "Manikonda",       "city": "Hyderabad" },
+    { "name": "Nanakramguda",    "city": "Hyderabad" },
+    { "name": "Sainikpuri",      "city": "Hyderabad" },
+    { "name": "Kompally",        "city": "Hyderabad" },
+    { "name": "Narsingi",        "city": "Hyderabad" },
+    { "name": "Indiranagar",     "city": "Bengaluru" },
+    { "name": "Koramangala",     "city": "Bengaluru" },
+    { "name": "Whitefield",      "city": "Bengaluru" },
+    { "name": "Kalyani Nagar",   "city": "Pune"      },
+    { "name": "Baner",           "city": "Pune"      },
+    { "name": "Golf Course Road","city": "Gurgaon"   },
+    { "name": "Sector 54",       "city": "Gurgaon"   },
+    { "name": "Powai",           "city": "Mumbai"    },
+    { "name": "Bandra West",     "city": "Mumbai"    }
+  ],
+  "cities": ["Hyderabad", "Bengaluru", "Pune", "Gurgaon", "Mumbai"],
+  "projects": [
+    { "name": "Aparna Sarovar Zenith", "locality": "Nallagandla",    "city": "Hyderabad" },
+    { "name": "My Home Apas",          "locality": "Kokapet",        "city": "Hyderabad" },
+    { "name": "Lanco Hills",           "locality": "Manikonda",      "city": "Hyderabad" },
+    { "name": "Rajapushpa Summit",     "locality": "Nanakramguda",   "city": "Hyderabad" },
+    { "name": "Alekhya Casa Grande",   "locality": "Kompally",       "city": "Hyderabad" },
+    { "name": "Prestige Shantiniketan","locality": "Whitefield",     "city": "Bengaluru" },
+    { "name": "DLF Camellias",         "locality": "Golf Course Road","city": "Gurgaon"  }
+  ]
+}
