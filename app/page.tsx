@@ -6,6 +6,8 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import isosData from "@/data/isos.json";
 import { formatBudget, formatTimeline } from "@/lib/format";
+import { featuredListings } from "@/lib/mockData";
+import ListingCard from "@/components/ListingCard";
 
 /* ── ISO card type ───────────────────────────────────────── */
 interface ISO {
@@ -120,6 +122,13 @@ export default function HomePage() {
         </Link>
 
         <nav className="hidden md:flex items-center gap-6">
+          <Link
+            href="/listings"
+            style={{ fontSize: 14, color: "var(--ink-soft)", fontWeight: 500 }}
+            className="transition-opacity hover:opacity-70"
+          >
+            Browse homes
+          </Link>
           {["How it works", "For Owners"].map((label) => (
             <a
               key={label}
@@ -273,6 +282,50 @@ export default function HomePage() {
             <ISOCard key={`${iso.id}-${i}`} iso={iso} />
           ))}
         </div>
+      </section>
+
+      {/* ── Browse homes in Hyderabad ─────────────────────── */}
+      <section className="px-5 md:px-10 py-16">
+        <p
+          style={{
+            fontSize: 12, fontWeight: 500,
+            textTransform: "uppercase", letterSpacing: "0.14em",
+            color: "var(--ink-faint)", marginBottom: 8,
+          }}
+        >
+          For sale in Hyderabad
+        </p>
+        <div className="flex items-end justify-between mb-8">
+          <h2
+            style={{
+              fontSize: 34, fontWeight: 500,
+              letterSpacing: "-0.02em", color: "var(--ink)", lineHeight: 1.1,
+            }}
+          >
+            Browse homes
+          </h2>
+          <Link
+            href="/listings"
+            className="hidden md:flex items-center gap-1.5 transition-opacity hover:opacity-70"
+            style={{ fontSize: 14, color: "var(--ink-soft)", fontWeight: 500 }}
+          >
+            View all 20 homes <ArrowRight size={14} />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+          {featuredListings.map((l) => (
+            <ListingCard key={l.id} listing={l} />
+          ))}
+        </div>
+
+        <Link
+          href="/listings"
+          className="md:hidden flex items-center gap-1.5 transition-opacity hover:opacity-70"
+          style={{ fontSize: 14, color: "var(--ink-soft)", fontWeight: 500 }}
+        >
+          View all 20 homes <ArrowRight size={14} />
+        </Link>
       </section>
 
       {/* ── How it works ──────────────────────────────────── */}

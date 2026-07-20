@@ -35,12 +35,12 @@
   {
     "id": "iso-004",
     "buyer": { "name": "Rohit Sharma", "initials": "RS" },
-    "location": "Koramangala, Bengaluru",
+    "location": "Kokapet, Hyderabad",
     "budget": 18000000,
     "timeline": 9,
     "propertyType": "Apartment",
     "perks": ["Balcony", "Gated community", "Lift"],
-    "headline": "Flexible on size, fixed on Koramangala. Work from home 5 days a week.",
+    "headline": "Flexible on size, fixed on Kokapet. Work from home 5 days a week and the ORR access is unbeatable.",
     "createdAt": "2026-07-05"
   },
   {
@@ -57,23 +57,23 @@
   {
     "id": "iso-006",
     "buyer": { "name": "Vikram Patel", "initials": "VP" },
-    "location": "Golf Course Road, Gurgaon",
+    "location": "Narsingi, Hyderabad",
     "budget": 60000000,
     "timeline": 36,
     "propertyType": "Builder Floor",
     "perks": ["Covered parking", "Corner unit", "Vaastu compliant"],
-    "headline": "Not in a hurry. Will wait for exactly the right floor on GCR.",
+    "headline": "Not in a hurry. Will wait for exactly the right independent floor on the ORR side of Narsingi.",
     "createdAt": "2026-05-20"
   },
   {
     "id": "iso-007",
     "buyer": { "name": "Divya Menon", "initials": "DM" },
-    "location": "Powai, Mumbai",
+    "location": "Madhapur, Hyderabad",
     "budget": 35000000,
     "timeline": 12,
     "propertyType": "Apartment",
     "perks": ["Lake view", "Gym", "Gated community"],
-    "headline": "Powai only — specifically looking for a lake-facing unit above the 15th floor.",
+    "headline": "Madhapur specifically — looking for a Durgam Cheruvu-facing unit above the 15th floor.",
     "createdAt": "2026-06-10"
   },
   {

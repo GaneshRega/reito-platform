@@ -89,7 +89,7 @@ export default async function ListingDetailPage({
           REITO
         </Link>
         <Link
-          href="/"
+          href="/listings"
           className="text-sm text-white/70 hover:text-white transition-colors flex items-center gap-1.5"
         >
           <span aria-hidden>←</span> All listings
@@ -241,6 +241,20 @@ export default async function ListingDetailPage({
           {/* Agent card ──────────────────────────────────────────── */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 lg:sticky lg:top-[72px]">
+              {/* Join Waitlist CTA */}
+              <div className="mb-5 pb-5 border-b border-gray-100">
+                <p className="text-[12px] text-gray-400 leading-snug mb-3">
+                  Queue on this home before it re-lists. The owner reaches out when they&apos;re ready.
+                </p>
+                <Link
+                  href="/iso"
+                  className="block w-full text-center text-sm font-semibold py-3 rounded-full transition-opacity hover:opacity-90"
+                  style={{ backgroundColor: "var(--ink)", color: "var(--paper)" }}
+                >
+                  Join Waitlist
+                </Link>
+              </div>
+
               <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
                 Contact agent
               </h2>
