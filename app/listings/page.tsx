@@ -73,7 +73,7 @@ export default function ListingsPage() {
             color: "var(--ink)",
           }}
         >
-          REITO
+          DISCOVER
         </Link>
 
         <nav className="hidden md:flex items-center gap-6">
@@ -81,7 +81,7 @@ export default function ListingsPage() {
             href="/listings"
             style={{ fontSize: 14, fontWeight: 500, color: "var(--ink)" }}
           >
-            Browse homes
+            Discover homes
           </Link>
           <a
             href="/#how"

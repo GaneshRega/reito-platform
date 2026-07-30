@@ -45,7 +45,7 @@ export default function ClaimPage() {
             color: "var(--ink)",
           }}
         >
-          REITO
+          DISCOVER
         </Link>
         <Link
           href="/"

@@ -1,4 +1,4 @@
-// REITO — mock listing data
+// DISCOVER — mock listing data
 // 20 Hyderabad properties. Coordinates are approximate locality centroids,
 // jittered per listing — accurate enough to sit correctly on a Leaflet map,
 // not survey-grade. Prices reflect mid-2026 Hyderabad market bands.
@@ -57,29 +57,29 @@ const agents: Record<string, Agent> = {
   rajesh: {
     name: "Rajesh Varma",
     phone: "+91 98490 21134",
-    email: "rajesh@reito.in",
-    agency: "Reito Premium",
+    email: "rajesh@discover.in",
+    agency: "Discover Premium",
     avatar: "/images/agents/rajesh.jpg",
   },
   sneha: {
     name: "Sneha Reddy",
     phone: "+91 99590 44821",
-    email: "sneha@reito.in",
-    agency: "Reito Premium",
+    email: "sneha@discover.in",
+    agency: "Discover Premium",
     avatar: "/images/agents/sneha.jpg",
   },
   imran: {
     name: "Imran Qureshi",
     phone: "+91 90005 77310",
-    email: "imran@reito.in",
-    agency: "Reito Residential",
+    email: "imran@discover.in",
+    agency: "Discover Residential",
     avatar: "/images/agents/imran.jpg",
   },
   divya: {
     name: "Divya Prasad",
     phone: "+91 91777 30256",
-    email: "divya@reito.in",
-    agency: "Reito Residential",
+    email: "divya@discover.in",
+    agency: "Discover Residential",
     avatar: "/images/agents/divya.jpg",
   },
 };

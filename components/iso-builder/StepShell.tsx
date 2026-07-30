@@ -75,7 +75,7 @@ export default function StepShell({
             color: "var(--ink)",
           }}
         >
-          REITO
+          DISCOVER
         </Link>
 
         {/* Progress bar */}

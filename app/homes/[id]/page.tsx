@@ -39,7 +39,7 @@ export async function generateMetadata({
   const { id } = await params;
   const l = getListingById(id);
   if (!l) return { title: "Not found" };
-  return { title: `${l.title} — REITO`, description: l.description.slice(0, 160) };
+  return { title: `${l.title} — DISCOVER`, description: l.description.slice(0, 160) };
 }
 
 export default async function HomeProfilePage({
@@ -73,7 +73,7 @@ export default async function HomeProfilePage({
             color: "var(--ink)",
           }}
         >
-          REITO
+          DISCOVER
         </Link>
         <Link
           href="/"

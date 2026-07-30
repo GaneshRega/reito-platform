@@ -10,7 +10,7 @@ const figtree = Figtree({
 });
 
 export const metadata: Metadata = {
-  title: "REITO — Find the home that isn't for sale",
+  title: "DISCOVER — Find the home that isn't for sale",
   description:
     "Queue on homes before they're listed. Owners reach out on their terms.",
 };

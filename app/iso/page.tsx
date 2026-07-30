@@ -132,7 +132,7 @@ export default function ISOPage() {
               Create an ISO
             </button>
             <Link
-              href="/"
+              href="/listings"
               className="w-full py-3 rounded-full text-center transition-colors"
               style={{
                 border: "1.5px solid var(--rule)",

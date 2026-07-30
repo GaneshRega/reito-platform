@@ -94,7 +94,7 @@ export default function ISOProfilePage() {
             color: "var(--ink)",
           }}
         >
-          REITO
+          DISCOVER
         </Link>
         <Link
           href="/iso"

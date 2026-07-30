@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
+import { Search } from "lucide-react";
 import {
   getListingById,
   listings,
@@ -44,10 +45,19 @@ export async function generateMetadata({
   const listing = getListingById(id);
   if (!listing) return { title: "Listing not found" };
   return {
-    title: `${listing.title} — REITO`,
+    title: `${listing.title} — DISCOVER`,
     description: listing.description.slice(0, 160),
   };
 }
+
+/* ── Shared label style ──────────────────────────────────── */
+const labelStyle: React.CSSProperties = {
+  fontSize: 11,
+  fontWeight: 500,
+  textTransform: "uppercase",
+  letterSpacing: "0.14em",
+  color: "var(--ink-faint)",
+};
 
 export default async function ListingDetailPage({
   params,
@@ -79,27 +89,99 @@ export default async function ListingDetailPage({
   ];
 
   return (
-    <div className="min-h-screen bg-[#F8F5F0]">
-      {/* Header */}
-      <header className="bg-[#1B3A2D] text-white px-4 md:px-6 h-14 flex items-center justify-between sticky top-0 z-50">
+    <div className="min-h-screen" style={{ backgroundColor: "var(--paper)" }}>
+
+      {/* ── Header ─────────────────────────────────────────── */}
+      <header
+        className="sticky top-0 z-50 grid grid-cols-[auto_1fr_auto] items-center gap-4 px-5 md:px-10 h-14"
+        style={{
+          backgroundColor: "var(--paper)",
+          borderBottom: "1px solid var(--rule)",
+        }}
+      >
+        {/* Wordmark */}
         <Link
           href="/"
-          className="text-sm font-medium tracking-[0.38em] uppercase"
+          style={{
+            fontWeight: 400,
+            fontSize: 15,
+            letterSpacing: "0.4em",
+            textTransform: "uppercase",
+            color: "var(--ink)",
+          }}
         >
-          REITO
+          DISCOVER
         </Link>
+
+        {/* Search bar */}
+        <div className="hidden md:flex justify-center">
+          <label
+            className="flex items-center gap-2.5 px-4 w-full cursor-text"
+            style={{
+              maxWidth: 520,
+              height: 36,
+              borderRadius: 9999,
+              border: "1px solid var(--rule)",
+              backgroundColor: "var(--paper-warm)",
+            }}
+          >
+            <Search size={14} style={{ color: "var(--ink-faint)", flexShrink: 0 }} />
+            <input
+              type="text"
+              placeholder="Search any locality in Hyderabad"
+              className="flex-1 bg-transparent outline-none min-w-0"
+              style={{ fontSize: 13.5, color: "var(--ink)" }}
+            />
+          </label>
+        </div>
+
+        {/* Right nav */}
+        <div className="flex items-center gap-6">
+          <nav className="hidden md:flex items-center gap-6">
+            <Link
+              href="/listings"
+              style={{ fontSize: 14, color: "var(--ink-soft)", fontWeight: 500 }}
+              className="transition-opacity hover:opacity-70"
+            >
+              Discover homes
+            </Link>
+            {["How it works", "For Owners"].map((label) => (
+              <a
+                key={label}
+                href="/#how"
+                style={{ fontSize: 14, color: "var(--ink-soft)", fontWeight: 500 }}
+                className="transition-opacity hover:opacity-70"
+              >
+                {label}
+              </a>
+            ))}
+          </nav>
+          <Link
+            href="/claim"
+            className="text-sm font-medium px-5 py-2 rounded-full transition-colors whitespace-nowrap"
+            style={{ border: "1.5px solid var(--rule)", color: "var(--ink)" }}
+          >
+            Feature your home
+          </Link>
+        </div>
+      </header>
+
+      <div className="max-w-5xl mx-auto px-5 md:px-10 py-10">
+
+        {/* Back link */}
         <Link
           href="/listings"
-          className="text-sm text-white/70 hover:text-white transition-colors flex items-center gap-1.5"
+          className="inline-flex items-center gap-1.5 mb-8 transition-opacity hover:opacity-60"
+          style={{ fontSize: 13, color: "var(--ink-faint)", fontWeight: 500 }}
         >
           <span aria-hidden>←</span> All listings
         </Link>
-      </header>
 
-      <div className="max-w-5xl mx-auto px-4 md:px-6 py-8">
-        {/* ── Gallery ──────────────────────────────────────────── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 rounded-2xl overflow-hidden mb-8 h-72 md:h-[420px]">
-          {/* Primary image — full height on left */}
+        {/* ── Gallery ──────────────────────────────────────── */}
+        <div
+          className="grid grid-cols-1 md:grid-cols-2 gap-2 overflow-hidden mb-10"
+          style={{ height: 420, borderRadius: 16 }}
+        >
           <div className="relative row-span-2">
             <Image
               src={images[0]}
@@ -110,7 +192,6 @@ export default async function ListingDetailPage({
               sizes="(max-width: 768px) 100vw, 50vw"
             />
           </div>
-          {/* Up to two secondary images stacked on right */}
           {images.slice(1, 3).map((src, i) => (
             <div key={i} className="relative hidden md:block">
               <Image
@@ -124,80 +205,112 @@ export default async function ListingDetailPage({
           ))}
         </div>
 
-        {/* ── Two-column layout ─────────────────────────────────── */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main ────────────────────────────────────────────────── */}
-          <div className="lg:col-span-2 space-y-8">
+        {/* ── Two-column layout ─────────────────────────────── */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+
+          {/* ── Main ──────────────────────────────────────────── */}
+          <div className="lg:col-span-2 flex flex-col gap-10">
+
             {/* Price + title */}
             <div>
-              <div className="flex items-start justify-between gap-4 mb-2">
-                <h1 className="text-xl md:text-2xl font-bold text-gray-900 leading-tight">
+              <div className="flex items-start justify-between gap-4 mb-3">
+                <h1
+                  style={{
+                    fontSize: "clamp(22px, 3vw, 30px)",
+                    fontWeight: 500,
+                    letterSpacing: "-0.02em",
+                    lineHeight: 1.2,
+                    color: "var(--ink)",
+                  }}
+                >
                   {listing.title}
                 </h1>
                 {listing.featured && (
-                  <span className="shrink-0 text-[11px] font-bold px-2.5 py-1 rounded-full bg-[#C8A84B] text-white tracking-wide">
+                  <span
+                    className="shrink-0 text-[11px] font-semibold px-3 py-1 rounded-full tracking-wider"
+                    style={{
+                      backgroundColor: "var(--gold-soft)",
+                      color: "var(--gold)",
+                      border: "1px solid var(--gold)",
+                    }}
+                  >
                     FEATURED
                   </span>
                 )}
               </div>
-              <p className="text-3xl md:text-4xl font-bold text-[#1B3A2D] tracking-tight mb-1">
+              <p
+                style={{
+                  fontSize: "clamp(28px, 4vw, 38px)",
+                  fontWeight: 500,
+                  letterSpacing: "-0.025em",
+                  color: "var(--ink)",
+                  lineHeight: 1,
+                  marginBottom: 6,
+                }}
+              >
                 {formatINR(listing.price)}
               </p>
-              <p className="text-sm text-gray-400 mb-2">
+              <p style={{ fontSize: 13, color: "var(--ink-faint)", marginBottom: 4 }}>
                 {formatPerSqft(listing.pricePerSqft)}
               </p>
-              <p className="text-sm text-gray-500">{listing.address}</p>
+              <p style={{ fontSize: 14, color: "var(--ink-soft)" }}>{listing.address}</p>
             </div>
 
             {/* Headline stats */}
             {listing.beds > 0 && (
-              <div className="flex gap-8 py-5 border-y border-gray-200">
-                <div>
-                  <p className="text-2xl font-bold text-[#1B3A2D]">
-                    {listing.beds}
-                  </p>
-                  <p className="text-xs text-gray-400 mt-0.5">Bedrooms</p>
-                </div>
-                <div>
-                  <p className="text-2xl font-bold text-[#1B3A2D]">
-                    {listing.baths}
-                  </p>
-                  <p className="text-xs text-gray-400 mt-0.5">Bathrooms</p>
-                </div>
-                <div>
-                  <p className="text-2xl font-bold text-[#1B3A2D]">
-                    {listing.sqft.toLocaleString("en-IN")}
-                  </p>
-                  <p className="text-xs text-gray-400 mt-0.5">sq ft</p>
-                </div>
+              <div
+                className="flex gap-10 py-5"
+                style={{ borderTop: "1px solid var(--rule)", borderBottom: "1px solid var(--rule)" }}
+              >
+                {[
+                  { val: listing.beds, unit: "Bedrooms" },
+                  { val: listing.baths, unit: "Bathrooms" },
+                  { val: listing.sqft.toLocaleString("en-IN"), unit: "sq ft" },
+                ].map(({ val, unit }) => (
+                  <div key={unit}>
+                    <p
+                      style={{
+                        fontSize: 28,
+                        fontWeight: 500,
+                        letterSpacing: "-0.02em",
+                        color: "var(--ink)",
+                        lineHeight: 1,
+                      }}
+                    >
+                      {val}
+                    </p>
+                    <p style={{ fontSize: 12, color: "var(--ink-faint)", marginTop: 4 }}>{unit}</p>
+                  </div>
+                ))}
               </div>
             )}
 
             {/* Description */}
             <div>
-              <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
-                About this property
-              </h2>
-              <p className="text-sm text-gray-600 leading-relaxed">
+              <p style={{ ...labelStyle, marginBottom: 12 }}>About this property</p>
+              <p style={{ fontSize: 15, color: "var(--ink-soft)", lineHeight: 1.65 }}>
                 {listing.description}
               </p>
             </div>
 
             {/* Property details grid */}
             <div>
-              <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
-                Property details
-              </h2>
+              <p style={{ ...labelStyle, marginBottom: 12 }}>Property details</p>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {specs.map((s) => (
                   <div
                     key={s.label}
-                    className="bg-white rounded-xl p-3.5 border border-gray-100"
+                    style={{
+                      backgroundColor: "var(--paper-cool)",
+                      borderRadius: 12,
+                      padding: "14px 16px",
+                      border: "1px solid var(--rule)",
+                    }}
                   >
-                    <p className="text-[11px] text-gray-400 uppercase tracking-wide mb-1">
+                    <p style={{ fontSize: 11, color: "var(--ink-faint)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 4 }}>
                       {s.label}
                     </p>
-                    <p className="text-sm font-medium text-gray-800">
+                    <p style={{ fontSize: 14, fontWeight: 500, color: "var(--ink)" }}>
                       {s.value}
                     </p>
                   </div>
@@ -207,14 +320,20 @@ export default async function ListingDetailPage({
 
             {/* Amenities */}
             <div>
-              <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
-                Amenities
-              </h2>
+              <p style={{ ...labelStyle, marginBottom: 12 }}>Amenities</p>
               <div className="flex flex-wrap gap-2">
                 {listing.amenities.map((a) => (
                   <span
                     key={a}
-                    className="text-xs px-3 py-1.5 rounded-full bg-[#1B3A2D]/8 text-[#1B3A2D] font-medium border border-[#1B3A2D]/10"
+                    style={{
+                      fontSize: 13,
+                      fontWeight: 500,
+                      color: "var(--ink-soft)",
+                      border: "1px solid var(--rule)",
+                      borderRadius: 9999,
+                      padding: "6px 14px",
+                      backgroundColor: "var(--paper-cool)",
+                    }}
                   >
                     {a}
                   </span>
@@ -224,10 +343,11 @@ export default async function ListingDetailPage({
 
             {/* Map */}
             <div>
-              <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
-                Location
-              </h2>
-              <div className="h-60 rounded-2xl overflow-hidden border border-gray-100">
+              <p style={{ ...labelStyle, marginBottom: 12 }}>Location</p>
+              <div
+                className="overflow-hidden"
+                style={{ height: 240, borderRadius: 14, border: "1px solid var(--rule)" }}
+              >
                 <ClientMap
                   listings={[listing]}
                   center={[listing.lat, listing.lng]}
@@ -238,54 +358,74 @@ export default async function ListingDetailPage({
             </div>
           </div>
 
-          {/* Agent card ──────────────────────────────────────────── */}
+          {/* ── Agent card ──────────────────────────────────── */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 lg:sticky lg:top-[72px]">
+            <div
+              className="lg:sticky"
+              style={{
+                top: 72,
+                backgroundColor: "var(--paper-cool)",
+                borderRadius: 16,
+                padding: 24,
+                border: "1px solid var(--rule)",
+                boxShadow: "var(--lift)",
+              }}
+            >
               {/* Join Waitlist CTA */}
-              <div className="mb-5 pb-5 border-b border-gray-100">
-                <p className="text-[12px] text-gray-400 leading-snug mb-3">
+              <div className="pb-5 mb-5" style={{ borderBottom: "1px solid var(--rule)" }}>
+                <p style={{ fontSize: 13, color: "var(--ink-faint)", lineHeight: 1.55, marginBottom: 12 }}>
                   Queue on this home before it re-lists. The owner reaches out when they&apos;re ready.
                 </p>
                 <Link
                   href="/iso"
-                  className="block w-full text-center text-sm font-semibold py-3 rounded-full transition-opacity hover:opacity-90"
-                  style={{ backgroundColor: "var(--ink)", color: "var(--paper)" }}
+                  className="block w-full text-center text-sm font-medium py-3 rounded-full transition-opacity hover:opacity-90"
+                  style={{ backgroundColor: "var(--ink)", color: "var(--paper)", fontSize: 14 }}
                 >
                   Join Waitlist
                 </Link>
               </div>
 
-              <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
-                Contact agent
-              </h2>
+              {/* Agent */}
+              <p style={{ ...labelStyle, marginBottom: 14 }}>Contact agent</p>
 
-              {/* Agent identity */}
               <div className="flex items-center gap-3 mb-5">
-                <div className="w-11 h-11 rounded-full bg-[#1B3A2D]/10 flex items-center justify-center text-[#1B3A2D] font-bold text-base shrink-0">
+                <div
+                  className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 text-sm font-semibold"
+                  style={{ backgroundColor: "var(--paper-warm)", color: "var(--ink-soft)" }}
+                >
                   {listing.agent.name.charAt(0)}
                 </div>
                 <div>
-                  <p className="font-semibold text-sm text-gray-900">
+                  <p style={{ fontSize: 14, fontWeight: 500, color: "var(--ink)" }}>
                     {listing.agent.name}
                   </p>
-                  <p className="text-xs text-gray-400">{listing.agent.agency}</p>
+                  <p style={{ fontSize: 12, color: "var(--ink-faint)" }}>{listing.agent.agency}</p>
                 </div>
               </div>
 
               <a
                 href={`tel:${listing.agent.phone}`}
-                className="block w-full text-center bg-[#1B3A2D] text-white text-sm font-semibold py-3 rounded-full hover:bg-[#2a5442] transition-colors mb-3"
+                className="block w-full text-center text-sm font-medium py-3 rounded-full transition-opacity hover:opacity-90 mb-2.5"
+                style={{ backgroundColor: "var(--ink)", color: "var(--paper)", fontSize: 14 }}
               >
                 {listing.agent.phone}
               </a>
               <a
                 href={`mailto:${listing.agent.email}`}
-                className="block w-full text-center border border-[#1B3A2D] text-[#1B3A2D] text-sm font-semibold py-3 rounded-full hover:bg-[#1B3A2D]/5 transition-colors"
+                className="block w-full text-center text-sm font-medium py-3 rounded-full transition-colors"
+                style={{
+                  border: "1.5px solid var(--rule)",
+                  color: "var(--ink)",
+                  fontSize: 14,
+                }}
               >
                 Email agent
               </a>
 
-              <p className="text-xs text-gray-400 text-center mt-4 pt-4 border-t border-gray-100">
+              <p
+                className="text-center mt-4 pt-4"
+                style={{ fontSize: 12, color: "var(--ink-faint)", borderTop: "1px solid var(--rule)" }}
+              >
                 Listed{" "}
                 {new Date(listing.listedDate).toLocaleDateString("en-IN", {
                   day: "numeric",
