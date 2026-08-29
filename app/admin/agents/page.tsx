@@ -332,6 +332,16 @@ export default function AgentsPage() {
   const { user } = useAuth();
   const isSuperAdmin = user?.role === "super_admin";
 
+  if (user && user.role !== "super_admin") {
+    return (
+      <div className="flex flex-col items-center justify-center h-full gap-3" style={{ color: "var(--ink-faint)" }}>
+        <Users size={36} style={{ opacity: 0.25 }} />
+        <p style={{ fontSize: 15, fontWeight: 600, color: "var(--ink)" }}>Access Restricted</p>
+        <p style={{ fontSize: 13 }}>Only Super Admins can view the Team page.</p>
+      </div>
+    );
+  }
+
   const [roleFilter, setRoleFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("active");
   const [showAddModal, setShowAddModal] = useState(false);

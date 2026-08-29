@@ -5,30 +5,11 @@ import Link from "next/link";
 import type { Listing } from "@/lib/mockData";
 import { formatINR, formatPerSqft } from "@/lib/mockData";
 
-const UNSPLASH = [
-  "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
-  "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800&q=80",
-  "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
-  "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80",
-  "https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800&q=80",
-  "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&q=80",
-  "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80",
-  "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800&q=80",
-  "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800&q=80",
-  "https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?w=800&q=80",
-];
-
-function resolveImage(src: string, listingId: string): string {
-  if (src.startsWith("http")) return src;
-  const num = parseInt(listingId.replace("rt-", ""), 10);
-  return UNSPLASH[num % UNSPLASH.length];
-}
-
 const STATUS_STYLES: Record<string, string> = {
-  "For Sale": "bg-sky-50 text-sky-700",
-  "New Launch": "bg-violet-50 text-violet-700",
-  "Under Construction": "bg-amber-50 text-amber-700",
-  "Ready to Move": "bg-emerald-50 text-emerald-700",
+  "For Sale":            "bg-sky-50 text-sky-700",
+  "New Launch":          "bg-violet-50 text-violet-700",
+  "Under Construction":  "bg-amber-50 text-amber-700",
+  "Ready to Move":       "bg-emerald-50 text-emerald-700",
 };
 
 interface Props {
@@ -36,11 +17,42 @@ interface Props {
 }
 
 export default function ListingCard({ listing }: Props) {
-  const imgSrc = resolveImage(listing.images[0], listing.id);
+  const imgSrc = listing.images[0];
+
+  function handleBrochure(e: React.MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    const content = [
+      "DISCOVER — PROPERTY BROCHURE",
+      "==============================",
+      "",
+      `Project: ${listing.title}`,
+      `Location: ${listing.address}`,
+      `Price: ${formatINR(listing.price)} (₹${listing.pricePerSqft.toLocaleString("en-IN")}/sqft)`,
+      `Config: ${listing.beds}BHK + Home Theatre | ${listing.sqft.toLocaleString("en-IN")} sqft`,
+      `Status: ${listing.status}`,
+      "",
+      "Amenities:",
+      ...listing.amenities.map((a) => `  • ${a}`),
+      "",
+      "Contact:",
+      `  ${listing.agent.name}  |  ${listing.agent.phone}`,
+      "",
+      "discover.in",
+    ].join("\n");
+    const blob = new Blob([content], { type: "text/plain" });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement("a");
+    a.href     = url;
+    a.download = `${listing.id}_brochure.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
 
   return (
     <Link href={`/listings/${listing.id}`} className="group block">
       <article className="bg-white rounded-2xl overflow-hidden shadow-[0_1px_3px_rgba(0,0,0,0.07),_0_8px_24px_rgba(0,0,0,0.05)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.10),_0_20px_48px_rgba(0,0,0,0.08)] transition-all duration-300 hover:-translate-y-1">
+
         {/* Image */}
         <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">
           <Image
@@ -50,13 +62,9 @@ export default function ListingCard({ listing }: Props) {
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           />
-          {/* Status pill */}
-          <span
-            className={`absolute top-3 left-3 text-[11px] font-semibold px-2.5 py-1 rounded-full ${STATUS_STYLES[listing.status] ?? "bg-gray-100 text-gray-600"}`}
-          >
+          <span className={`absolute top-3 left-3 text-[11px] font-semibold px-2.5 py-1 rounded-full ${STATUS_STYLES[listing.status] ?? "bg-gray-100 text-gray-600"}`}>
             {listing.status}
           </span>
-          {/* Featured badge */}
           {listing.featured && (
             <span className="absolute top-3 right-3 text-[11px] font-bold px-2.5 py-1 rounded-full bg-[#C8A84B] text-white tracking-wide">
               FEATURED
@@ -66,7 +74,7 @@ export default function ListingCard({ listing }: Props) {
 
         {/* Body */}
         <div className="p-4">
-          {/* Price row */}
+          {/* Price */}
           <div className="flex items-baseline justify-between mb-1.5">
             <span className="text-xl font-bold text-[#1B3A2D] tracking-tight">
               {formatINR(listing.price)}
@@ -77,7 +85,7 @@ export default function ListingCard({ listing }: Props) {
           </div>
 
           {/* Title */}
-          <p className="text-sm font-medium text-gray-800 line-clamp-2 leading-snug mb-1.5">
+          <p className="text-sm font-medium text-gray-800 line-clamp-2 leading-snug mb-1">
             {listing.title}
           </p>
 
@@ -86,22 +94,17 @@ export default function ListingCard({ listing }: Props) {
             {listing.locality}, {listing.city}
           </p>
 
-          {/* Beds / baths / sqft rail */}
-          <div className="flex items-center gap-2.5 text-xs text-gray-500 border-t border-gray-100 pt-3">
-            {listing.beds > 0 ? (
+          {/* Beds / baths / sqft */}
+          <div className="flex items-center gap-2.5 text-xs text-gray-500 border-t border-gray-100 pt-3 mb-3">
+            {listing.beds > 0 && (
               <>
                 <span>
                   <span className="font-semibold text-[#1B3A2D]">{listing.beds}</span>
-                  {" "}bed{listing.beds !== 1 ? "s" : ""}
-                </span>
-                <span className="text-gray-200">·</span>
-                <span>
-                  <span className="font-semibold text-[#1B3A2D]">{listing.baths}</span>
-                  {" "}bath{listing.baths !== 1 ? "s" : ""}
+                  {" "}BHK+HT
                 </span>
                 <span className="text-gray-200">·</span>
               </>
-            ) : null}
+            )}
             <span>
               <span className="font-semibold text-[#1B3A2D]">
                 {listing.sqft.toLocaleString("en-IN")}
@@ -109,6 +112,15 @@ export default function ListingCard({ listing }: Props) {
               {" "}sqft
             </span>
           </div>
+
+          {/* Download Brochure */}
+          <button
+            onClick={handleBrochure}
+            className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-medium border transition-colors hover:bg-gray-50"
+            style={{ borderColor: "#E5E7EB", color: "#6B7280" }}
+          >
+            ⬇ Download Brochure
+          </button>
         </div>
       </article>
     </Link>

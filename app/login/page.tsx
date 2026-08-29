@@ -6,8 +6,8 @@ import { Eye, EyeOff, ChevronDown } from "lucide-react";
 import { useAuth, DEMO_PASSWORD } from "@/lib/admin/auth";
 
 const DEMO_ACCOUNTS = [
-  { role: "Super Admin", email: "rajesh@discover.in",   badge: { color: "#6B4CA6", bg: "#EDE6F8" } },
-  { role: "Manager",     email: "divya@discover.in",    badge: { color: "#2A6EBB", bg: "#E5EEF8" } },
+  { role: "Super Admin", email: "anuj@discover.in",     badge: { color: "#6B4CA6", bg: "#EDE6F8" } },
+  { role: "Manager",     email: "kiran@discover.in",    badge: { color: "#2A6EBB", bg: "#E5EEF8" } },
   { role: "Agent",       email: "arjun@discover.in",    badge: { color: "#1D7D5A", bg: "#E0F2EB" } },
   { role: "Agent",       email: "sneha@discover.in",    badge: { color: "#1D7D5A", bg: "#E0F2EB" } },
   { role: "Viewer",      email: "siddharth@discover.in",badge: { color: "#5C554C", bg: "#F0EDE8" } },

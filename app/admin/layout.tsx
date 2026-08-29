@@ -19,6 +19,13 @@ const NAV = [
   { href: "/admin/analytics",   label: "Analytics",     icon: BarChart2       },
 ];
 
+// Pages each role can access
+const ROLE_ALLOWED: Record<string, string[]> = {
+  super_admin: NAV.map(n => n.href),
+  manager:     ["/admin", "/admin/clients", "/admin/pipeline", "/admin/properties", "/admin/claims"],
+  viewer:      ["/admin", "/admin/clients"],
+};
+
 const ADMIN_ROLES = new Set(["super_admin", "manager", "viewer"]);
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -139,6 +146,9 @@ function SidebarContent({
     router.push("/login");
   }
 
+  const allowedHrefs = new Set(ROLE_ALLOWED[user.role] ?? []);
+  const visibleNav = NAV.filter(n => allowedHrefs.has(n.href));
+
   return (
     <>
       {/* Logo */}
@@ -155,7 +165,7 @@ function SidebarContent({
 
       {/* Nav */}
       <nav className="flex-1 py-3 px-2 flex flex-col gap-0.5">
-        {NAV.map(({ href, label, icon: Icon }) => {
+        {visibleNav.map(({ href, label, icon: Icon }) => {
           const active = href === "/admin" ? pathname === "/admin" : pathname.startsWith(href);
           return (
             <Link

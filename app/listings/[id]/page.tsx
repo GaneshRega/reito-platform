@@ -10,6 +10,7 @@ import {
   formatPerSqft,
 } from "@/lib/mockData";
 import ClientMap from "@/components/ClientMap";
+import BrochureButton from "@/components/BrochureButton";
 
 export const dynamic = "force-static";
 
@@ -412,7 +413,7 @@ export default async function ListingDetailPage({
               </a>
               <a
                 href={`mailto:${listing.agent.email}`}
-                className="block w-full text-center text-sm font-medium py-3 rounded-full transition-colors"
+                className="block w-full text-center text-sm font-medium py-3 rounded-full transition-colors mb-2.5"
                 style={{
                   border: "1.5px solid var(--rule)",
                   color: "var(--ink)",
@@ -421,6 +422,7 @@ export default async function ListingDetailPage({
               >
                 Email agent
               </a>
+              <BrochureButton listing={listing} />
 
               <p
                 className="text-center mt-4 pt-4"

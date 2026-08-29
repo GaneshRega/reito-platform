@@ -4,6 +4,8 @@ import { useState } from "react";
 import { CLIENTS, HOMES, MATCHES, TEAM, LOCALITIES_DEMAND } from "@/lib/admin/data";
 import { STATUS_META, type ClientStatus } from "@/lib/admin/types";
 import { formatBudget } from "@/lib/format";
+import { useAuth } from "@/lib/admin/auth";
+import { BarChart2 } from "lucide-react";
 
 const PIPELINE_STAGES: ClientStatus[] = [
   "new","contacted","verified","published",
@@ -73,7 +75,18 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 }
 
 export default function AnalyticsPage() {
+  const { user } = useAuth();
   const totalClients = CLIENTS.length;
+
+  if (user && user.role !== "super_admin") {
+    return (
+      <div className="flex flex-col items-center justify-center h-full gap-3" style={{ color: "var(--ink-faint)" }}>
+        <BarChart2 size={36} style={{ opacity: 0.25 }} />
+        <p style={{ fontSize: 15, fontWeight: 600, color: "var(--ink)" }}>Access Restricted</p>
+        <p style={{ fontSize: 13 }}>Only Super Admins can view Analytics.</p>
+      </div>
+    );
+  }
 
   // Pipeline funnel
   const funnelData = PIPELINE_STAGES.map(s => ({

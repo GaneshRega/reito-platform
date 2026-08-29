@@ -1,7 +1,7 @@
-// DISCOVER — mock listing data
-// 20 Hyderabad properties. Coordinates are approximate locality centroids,
-// jittered per listing — accurate enough to sit correctly on a Leaflet map,
-// not survey-grade. Prices reflect mid-2026 Hyderabad market bands.
+// DISCOVER — Real Hyderabad villa project listings
+// 115 projects from primary market research (South, West, North-West, South-West, North zones).
+// Coordinates: approximate locality centroids with per-project jitter.
+// Images: Unsplash placeholders (replace with real project images when available).
 
 export type PropertyType =
   | "Apartment"
@@ -32,7 +32,7 @@ export interface Listing {
   pincode: string;
   lat: number;
   lng: number;
-  price: number;          // in rupees
+  price: number;
   pricePerSqft: number;
   beds: number;
   baths: number;
@@ -49,654 +49,351 @@ export interface Listing {
   amenities: string[];
   images: string[];
   agent: Agent;
-  listedDate: string;     // ISO
+  listedDate: string;
   featured: boolean;
 }
 
-const agents: Record<string, Agent> = {
-  rajesh: {
-    name: "Rajesh Varma",
-    phone: "+91 98490 21134",
-    email: "rajesh@discover.in",
-    agency: "Discover Premium",
-    avatar: "/images/agents/rajesh.jpg",
-  },
-  sneha: {
-    name: "Sneha Reddy",
-    phone: "+91 99590 44821",
-    email: "sneha@discover.in",
-    agency: "Discover Premium",
-    avatar: "/images/agents/sneha.jpg",
-  },
-  imran: {
-    name: "Imran Qureshi",
-    phone: "+91 90005 77310",
-    email: "imran@discover.in",
-    agency: "Discover Residential",
-    avatar: "/images/agents/imran.jpg",
-  },
-  divya: {
-    name: "Divya Prasad",
-    phone: "+91 91777 30256",
-    email: "divya@discover.in",
-    agency: "Discover Residential",
-    avatar: "/images/agents/divya.jpg",
-  },
-};
+/* ── Agents ─────────────────────────────────────────────────────────────────── */
 
-export const listings: Listing[] = [
-  {
-    id: "rt-001",
-    title: "Contemporary 4BHK villa with private lawn",
-    address: "Road No. 45, Jubilee Hills",
-    locality: "Jubilee Hills",
-    city: "Hyderabad",
-    pincode: "500033",
-    lat: 17.4326,
-    lng: 78.4071,
-    price: 145000000,
-    pricePerSqft: 16800,
-    beds: 4,
-    baths: 5,
-    sqft: 8630,
-    propertyType: "Villa",
-    status: "Ready to Move",
-    furnishing: "Fully furnished",
-    facing: "East",
-    floor: null,
-    totalFloors: 2,
-    yearBuilt: 2021,
-    parking: 4,
-    description:
-      "A double-height living room opens onto a west-facing lawn shaded by mature rain trees. Italian marble through the ground floor, imported modular kitchen, and a separate guest annexe with its own entrance. Located on one of Jubilee Hills' quieter internal roads, four minutes from Apollo Hospital.",
-    amenities: ["Private lawn", "Home theatre", "Servant quarters", "Solar water heating", "Borewell", "CCTV", "Power backup"],
-    images: ["/images/listings/rt-001-1.jpg", "/images/listings/rt-001-2.jpg", "/images/listings/rt-001-3.jpg"],
-    agent: agents.rajesh,
-    listedDate: "2026-06-02",
-    featured: true,
-  },
-  {
-    id: "rt-002",
-    title: "3BHK in gated high-rise, Financial District views",
-    address: "Aparna Sarovar Zenith, Nallagandla",
-    locality: "Nallagandla",
-    city: "Hyderabad",
-    pincode: "500019",
-    lat: 17.4823,
-    lng: 78.3115,
-    price: 21500000,
-    pricePerSqft: 8100,
-    beds: 3,
-    baths: 3,
-    sqft: 2655,
-    propertyType: "Apartment",
-    status: "Ready to Move",
-    furnishing: "Semi-furnished",
-    facing: "North-East",
-    floor: 14,
-    totalFloors: 22,
-    yearBuilt: 2020,
-    parking: 2,
-    description:
-      "Corner unit on the 14th floor with an unobstructed line of sight toward the Financial District skyline. Wraparound balcony off the living and master bedroom. The society has a 40,000 sqft clubhouse and is a seven-minute drive to Wipro Circle.",
-    amenities: ["Clubhouse", "Swimming pool", "Gym", "Children's play area", "Power backup", "Lift", "Gated community", "Visitor parking"],
-    images: ["/images/listings/rt-002-1.jpg", "/images/listings/rt-002-2.jpg", "/images/listings/rt-002-3.jpg"],
-    agent: agents.sneha,
-    listedDate: "2026-06-19",
-    featured: true,
-  },
-  {
-    id: "rt-003",
-    title: "Spacious 2BHK near Kukatpally metro",
-    address: "KPHB Phase 6, Kukatpally",
-    locality: "Kukatpally",
-    city: "Hyderabad",
-    pincode: "500072",
-    lat: 17.4948,
-    lng: 78.3996,
-    price: 8200000,
-    pricePerSqft: 6050,
-    beds: 2,
-    baths: 2,
-    sqft: 1355,
-    propertyType: "Apartment",
-    status: "Ready to Move",
-    furnishing: "Unfurnished",
-    facing: "East",
-    floor: 5,
-    totalFloors: 9,
-    yearBuilt: 2016,
-    parking: 1,
-    description:
-      "Practical east-facing two-bedroom in an established KPHB block, 600 metres from the Kukatpally metro station. Vitrified flooring, covered parking, and a resident association that maintains the building well. Forum Sujana Mall is a ten-minute walk.",
-    amenities: ["Lift", "Power backup", "Covered parking", "Security", "Borewell", "Metro nearby"],
-    images: ["/images/listings/rt-003-1.jpg", "/images/listings/rt-003-2.jpg"],
-    agent: agents.imran,
-    listedDate: "2026-07-01",
-    featured: false,
-  },
-  {
-    id: "rt-004",
-    title: "Sky villa with terrace garden in Kokapet",
-    address: "My Home Apas, Kokapet",
-    locality: "Kokapet",
-    city: "Hyderabad",
-    pincode: "500075",
-    lat: 17.4055,
-    lng: 78.3271,
-    price: 68000000,
-    pricePerSqft: 11400,
-    beds: 4,
-    baths: 5,
-    sqft: 5965,
-    propertyType: "Penthouse",
-    status: "Ready to Move",
-    furnishing: "Fully furnished",
-    facing: "West",
-    floor: 31,
-    totalFloors: 32,
-    yearBuilt: 2023,
-    parking: 3,
-    description:
-      "Duplex penthouse across the top two floors, with a 1,200 sqft private terrace and plunge pool. Floor-to-ceiling glazing on the western face catches the evening light over the Osman Sagar catchment. Private lift lobby.",
-    amenities: ["Private terrace", "Plunge pool", "Private lift", "Concierge", "Gym", "Clubhouse", "Power backup", "EV charging"],
-    images: ["/images/listings/rt-004-1.jpg", "/images/listings/rt-004-2.jpg", "/images/listings/rt-004-3.jpg", "/images/listings/rt-004-4.jpg"],
-    agent: agents.rajesh,
-    listedDate: "2026-05-14",
-    featured: true,
-  },
-  {
-    id: "rt-005",
-    title: "3BHK new launch off ORR, Tellapur",
-    address: "Tellapur Main Road, Tellapur",
-    locality: "Tellapur",
-    city: "Hyderabad",
-    pincode: "502032",
-    lat: 17.4901,
-    lng: 78.2823,
-    price: 14800000,
-    pricePerSqft: 7250,
-    beds: 3,
-    baths: 3,
-    sqft: 2040,
-    propertyType: "Apartment",
-    status: "New Launch",
-    furnishing: "Unfurnished",
-    facing: "North",
-    floor: 8,
-    totalFloors: 26,
-    yearBuilt: 2028,
-    parking: 2,
-    description:
-      "Pre-launch pricing on a 26-storey tower with possession expected late 2028. Two minutes from the ORR Exit 3 ramp, which puts the Financial District within a fifteen-minute drive outside peak hours. RERA registered.",
-    amenities: ["Clubhouse", "Swimming pool", "Gym", "Jogging track", "Amphitheatre", "Power backup", "Gated community"],
-    images: ["/images/listings/rt-005-1.jpg", "/images/listings/rt-005-2.jpg"],
-    agent: agents.divya,
-    listedDate: "2026-07-08",
-    featured: false,
-  },
-  {
-    id: "rt-006",
-    title: "Heritage bungalow on 900 sq yd, Banjara Hills",
-    address: "Road No. 12, Banjara Hills",
-    locality: "Banjara Hills",
-    city: "Hyderabad",
-    pincode: "500034",
-    lat: 17.4126,
-    lng: 78.4482,
-    price: 195000000,
-    pricePerSqft: 14200,
-    beds: 5,
-    baths: 6,
-    sqft: 13730,
-    propertyType: "Independent House",
-    status: "For Sale",
-    furnishing: "Unfurnished",
-    facing: "South-East",
-    floor: null,
-    totalFloors: 2,
-    yearBuilt: 1994,
-    parking: 6,
-    description:
-      "A 1990s Deccan bungalow on 900 square yards, retaining its original teak joinery, jaali screens and courtyard. Sold as-is — most buyers at this level will redevelop, but the plot and the road frontage are the point. Rare inventory on Road No. 12.",
-    amenities: ["Courtyard", "Servant quarters", "Borewell", "Mature garden", "Compound wall", "Power backup"],
-    images: ["/images/listings/rt-006-1.jpg", "/images/listings/rt-006-2.jpg", "/images/listings/rt-006-3.jpg"],
-    agent: agents.rajesh,
-    listedDate: "2026-04-27",
-    featured: true,
-  },
-  {
-    id: "rt-007",
-    title: "Compact 2BHK, walk to HITEC City",
-    address: "Silicon Valley, Madhapur",
-    locality: "Madhapur",
-    city: "Hyderabad",
-    pincode: "500081",
-    lat: 17.4483,
-    lng: 78.3915,
-    price: 12400000,
-    pricePerSqft: 9100,
-    beds: 2,
-    baths: 2,
-    sqft: 1360,
-    propertyType: "Apartment",
-    status: "Ready to Move",
-    furnishing: "Semi-furnished",
-    facing: "East",
-    floor: 6,
-    totalFloors: 11,
-    yearBuilt: 2018,
-    parking: 1,
-    description:
-      "The rare Madhapur unit you can actually walk to work from — eleven minutes on foot to the Cyber Towers junction. Semi-furnished with wardrobes and modular kitchen already fitted. Strong rental demand if you're buying to let.",
-    amenities: ["Gym", "Lift", "Power backup", "Covered parking", "Security", "Rainwater harvesting"],
-    images: ["/images/listings/rt-007-1.jpg", "/images/listings/rt-007-2.jpg"],
-    agent: agents.sneha,
-    listedDate: "2026-06-25",
-    featured: false,
-  },
-  {
-    id: "rt-008",
-    title: "4BHK independent house, Sainikpuri",
-    address: "Kakateeya Hills, Sainikpuri",
-    locality: "Sainikpuri",
-    city: "Hyderabad",
-    pincode: "500094",
-    lat: 17.4936,
-    lng: 78.5482,
-    price: 24500000,
-    pricePerSqft: 7150,
-    beds: 4,
-    baths: 4,
-    sqft: 3425,
-    propertyType: "Independent House",
-    status: "Ready to Move",
-    furnishing: "Unfurnished",
-    facing: "North",
-    floor: null,
-    totalFloors: 2,
-    yearBuilt: 2012,
-    parking: 2,
-    description:
-      "Well-built G+1 on 267 square yards in a quiet defence-colony pocket. Ground floor is currently let out, giving immediate rental income while you occupy the first. Wide 40-foot road, low traffic, established neighbourhood.",
-    amenities: ["Independent entrance", "Terrace", "Borewell", "Compound wall", "Power backup", "Parking"],
-    images: ["/images/listings/rt-008-1.jpg", "/images/listings/rt-008-2.jpg", "/images/listings/rt-008-3.jpg"],
-    agent: agents.imran,
-    listedDate: "2026-06-11",
-    featured: false,
-  },
-  {
-    id: "rt-009",
-    title: "Premium 3BHK in Gachibowli tech corridor",
-    address: "Lanco Hills, Manikonda",
-    locality: "Manikonda",
-    city: "Hyderabad",
-    pincode: "500089",
-    lat: 17.4045,
-    lng: 78.3822,
-    price: 18900000,
-    pricePerSqft: 8400,
-    beds: 3,
-    baths: 3,
-    sqft: 2250,
-    propertyType: "Apartment",
-    status: "Ready to Move",
-    furnishing: "Semi-furnished",
-    facing: "West",
-    floor: 17,
-    totalFloors: 24,
-    yearBuilt: 2019,
-    parking: 2,
-    description:
-      "Seventeenth-floor unit in a township with its own retail street, school and medical centre — you rarely need to leave the gate. West-facing balcony, good cross-ventilation. Ten minutes to Gachibowli, twenty to the airport via ORR.",
-    amenities: ["Township retail", "School inside", "Swimming pool", "Gym", "Clubhouse", "Power backup", "Gated community", "Lift"],
-    images: ["/images/listings/rt-009-1.jpg", "/images/listings/rt-009-2.jpg"],
-    agent: agents.divya,
-    listedDate: "2026-07-03",
-    featured: false,
-  },
-  {
-    id: "rt-010",
-    title: "Budget 2BHK near Miyapur metro terminus",
-    address: "Chanda Nagar Road, Miyapur",
-    locality: "Miyapur",
-    city: "Hyderabad",
-    pincode: "500049",
-    lat: 17.4968,
-    lng: 78.3578,
-    price: 5900000,
-    pricePerSqft: 5150,
-    beds: 2,
-    baths: 2,
-    sqft: 1145,
-    propertyType: "Apartment",
-    status: "Ready to Move",
-    furnishing: "Unfurnished",
-    facing: "North-East",
-    floor: 3,
-    totalFloors: 5,
-    yearBuilt: 2014,
-    parking: 1,
-    description:
-      "Straightforward entry-level buy a kilometre from the Miyapur metro terminus, which makes the whole Red Line commute viable without a car. Building is a decade old but structurally sound with a functioning association.",
-    amenities: ["Lift", "Power backup", "Parking", "Security", "Metro nearby", "Borewell"],
-    images: ["/images/listings/rt-010-1.jpg", "/images/listings/rt-010-2.jpg"],
-    agent: agents.imran,
-    listedDate: "2026-07-12",
-    featured: false,
-  },
-  {
-    id: "rt-011",
-    title: "Gated villa community plot, Shankarpally",
-    address: "Aurum Estates, Shankarpally Road",
-    locality: "Shankarpally",
-    city: "Hyderabad",
-    pincode: "501203",
-    lat: 17.4451,
-    lng: 78.1985,
-    price: 9600000,
-    pricePerSqft: 3200,
-    beds: 0,
-    baths: 0,
-    sqft: 3000,
-    propertyType: "Plot",
-    status: "For Sale",
-    furnishing: "Unfurnished",
-    facing: "East",
-    floor: null,
-    totalFloors: null,
-    yearBuilt: 2026,
-    parking: 0,
-    description:
-      "333 square yard east-facing plot in a HMDA-approved gated layout with internal roads, drainage and street lighting already laid. Construction permitted to G+2. The Regional Ring Road alignment passes within four kilometres.",
-    amenities: ["HMDA approved", "Gated layout", "Internal roads", "Street lighting", "Drainage", "Compound wall"],
-    images: ["/images/listings/rt-011-1.jpg", "/images/listings/rt-011-2.jpg"],
-    agent: agents.divya,
-    listedDate: "2026-05-30",
-    featured: false,
-  },
-  {
-    id: "rt-012",
-    title: "Renovated 3BHK builder floor, Begumpet",
-    address: "Prakash Nagar, Begumpet",
-    locality: "Begumpet",
-    city: "Hyderabad",
-    pincode: "500016",
-    lat: 17.4435,
-    lng: 78.4691,
-    price: 16200000,
-    pricePerSqft: 8650,
-    beds: 3,
-    baths: 3,
-    sqft: 1875,
-    propertyType: "Builder Floor",
-    status: "Ready to Move",
-    furnishing: "Fully furnished",
-    facing: "South",
-    floor: 2,
-    totalFloors: 4,
-    yearBuilt: 2009,
-    parking: 2,
-    description:
-      "Fully renovated last year — rewired, replumbed, new kitchen and bathrooms. Only one flat per floor, so no shared walls. Prakash Nagar is central without being loud, and Begumpet metro is a six-minute walk.",
-    amenities: ["Single flat per floor", "Modular kitchen", "Lift", "Power backup", "Covered parking", "Metro nearby"],
-    images: ["/images/listings/rt-012-1.jpg", "/images/listings/rt-012-2.jpg", "/images/listings/rt-012-3.jpg"],
-    agent: agents.sneha,
-    listedDate: "2026-06-07",
-    featured: false,
-  },
-  {
-    id: "rt-013",
-    title: "5BHK villa in gated community, Kompally",
-    address: "Alekhya Casa Grande, Kompally",
-    locality: "Kompally",
-    city: "Hyderabad",
-    pincode: "500014",
-    lat: 17.5401,
-    lng: 78.4869,
-    price: 32500000,
-    pricePerSqft: 7050,
-    beds: 5,
-    baths: 5,
-    sqft: 4610,
-    propertyType: "Villa",
-    status: "Ready to Move",
-    furnishing: "Semi-furnished",
-    facing: "East",
-    floor: null,
-    totalFloors: 3,
-    yearBuilt: 2017,
-    parking: 3,
-    description:
-      "Triple-storey villa in a 90-unit gated enclave with a shared clubhouse and tennis court. Private garden front and rear, home office on the top floor. Kompally has matured considerably since 2017 — several international schools within three kilometres.",
-    amenities: ["Private garden", "Clubhouse", "Tennis court", "Swimming pool", "Gated community", "Power backup", "Servant quarters", "Borewell"],
-    images: ["/images/listings/rt-013-1.jpg", "/images/listings/rt-013-2.jpg", "/images/listings/rt-013-3.jpg"],
-    agent: agents.divya,
-    listedDate: "2026-05-21",
-    featured: true,
-  },
-  {
-    id: "rt-014",
-    title: "2BHK under construction, Bachupally",
-    address: "Nizampet Road, Bachupally",
-    locality: "Bachupally",
-    city: "Hyderabad",
-    pincode: "500090",
-    lat: 17.5462,
-    lng: 78.3877,
-    price: 7400000,
-    pricePerSqft: 5600,
-    beds: 2,
-    baths: 2,
-    sqft: 1320,
-    propertyType: "Apartment",
-    status: "Under Construction",
-    furnishing: "Unfurnished",
-    facing: "North",
-    floor: 7,
-    totalFloors: 14,
-    yearBuilt: 2027,
-    parking: 1,
-    description:
-      "Handover scheduled for March 2027, currently at eighth-slab stage. Construction-linked payment plan available. Bachupally has absorbed a lot of the Kukatpally overflow and pricing here still trails Nizampet by roughly eight percent.",
-    amenities: ["Clubhouse", "Gym", "Children's play area", "Power backup", "Lift", "Gated community", "Rainwater harvesting"],
-    images: ["/images/listings/rt-014-1.jpg", "/images/listings/rt-014-2.jpg"],
-    agent: agents.imran,
-    listedDate: "2026-07-05",
-    featured: false,
-  },
-  {
-    id: "rt-015",
-    title: "Designer 3BHK overlooking Durgam Cheruvu",
-    address: "Rajapushpa Summit, Nanakramguda",
-    locality: "Nanakramguda",
-    city: "Hyderabad",
-    pincode: "500032",
-    lat: 17.4229,
-    lng: 78.3419,
-    price: 34000000,
-    pricePerSqft: 10600,
-    beds: 3,
-    baths: 4,
-    sqft: 3210,
-    propertyType: "Apartment",
-    status: "Ready to Move",
-    furnishing: "Fully furnished",
-    facing: "North-East",
-    floor: 22,
-    totalFloors: 30,
-    yearBuilt: 2024,
-    parking: 2,
-    description:
-      "Interior-designed unit finished in oak and brushed brass, sold with furniture. The north-east glazing frames Durgam Cheruvu and the cable bridge. Walking distance to the Financial District office cluster.",
-    amenities: ["Lake view", "Concierge", "Infinity pool", "Gym", "Business centre", "EV charging", "Power backup", "Private lift lobby"],
-    images: ["/images/listings/rt-015-1.jpg", "/images/listings/rt-015-2.jpg", "/images/listings/rt-015-3.jpg", "/images/listings/rt-015-4.jpg"],
-    agent: agents.rajesh,
-    listedDate: "2026-06-29",
-    featured: true,
-  },
-  {
-    id: "rt-016",
-    title: "3BHK with study, Narsingi",
-    address: "Vasavi Atlantis, Narsingi",
-    locality: "Narsingi",
-    city: "Hyderabad",
-    pincode: "500089",
-    lat: 17.3897,
-    lng: 78.3541,
-    price: 17600000,
-    pricePerSqft: 7900,
-    beds: 3,
-    baths: 3,
-    sqft: 2230,
-    propertyType: "Apartment",
-    status: "Ready to Move",
-    furnishing: "Semi-furnished",
-    facing: "East",
-    floor: 11,
-    totalFloors: 19,
-    yearBuilt: 2022,
-    parking: 2,
-    description:
-      "Three bedrooms plus a genuine study — not a converted utility. Narsingi sits right on the ORR with quick access both to the Financial District and toward Shamshabad airport. Good school cluster within two kilometres.",
-    amenities: ["Study room", "Swimming pool", "Gym", "Clubhouse", "Gated community", "Power backup", "Lift", "Visitor parking"],
-    images: ["/images/listings/rt-016-1.jpg", "/images/listings/rt-016-2.jpg"],
-    agent: agents.sneha,
-    listedDate: "2026-06-16",
-    featured: false,
-  },
-  {
-    id: "rt-017",
-    title: "Affordable 2BHK, Attapur",
-    address: "Pillar No. 145, Attapur",
-    locality: "Attapur",
-    city: "Hyderabad",
-    pincode: "500048",
-    lat: 17.3644,
-    lng: 78.4218,
-    price: 6800000,
-    pricePerSqft: 5450,
-    beds: 2,
-    baths: 2,
-    sqft: 1248,
-    propertyType: "Apartment",
-    status: "Ready to Move",
-    furnishing: "Unfurnished",
-    facing: "West",
-    floor: 4,
-    totalFloors: 7,
-    yearBuilt: 2015,
-    parking: 1,
-    description:
-      "Sensible two-bedroom on the PVNR Expressway corridor, which makes the airport a twenty-minute run and the old city fifteen. Attapur is unglamorous but well connected, and pricing reflects that.",
-    amenities: ["Lift", "Power backup", "Parking", "Security", "Borewell", "Rainwater harvesting"],
-    images: ["/images/listings/rt-017-1.jpg", "/images/listings/rt-017-2.jpg"],
-    agent: agents.imran,
-    listedDate: "2026-07-10",
-    featured: false,
-  },
-  {
-    id: "rt-018",
-    title: "4BHK duplex, Kondapur",
-    address: "Botanical Garden Road, Kondapur",
-    locality: "Kondapur",
-    city: "Hyderabad",
-    pincode: "500084",
-    lat: 17.4615,
-    lng: 78.3639,
-    price: 27800000,
-    pricePerSqft: 8950,
-    beds: 4,
-    baths: 4,
-    sqft: 3105,
-    propertyType: "Apartment",
-    status: "Ready to Move",
-    furnishing: "Semi-furnished",
-    facing: "South-East",
-    floor: 9,
-    totalFloors: 12,
-    yearBuilt: 2020,
-    parking: 2,
-    description:
-      "Duplex across the ninth and tenth floors with an internal staircase and double-height living volume. Opposite the Botanical Garden, so the outlook stays green and won't be built out. Five minutes to HITEC City.",
-    amenities: ["Duplex layout", "Double-height living", "Swimming pool", "Gym", "Clubhouse", "Power backup", "Lift", "Gated community"],
-    images: ["/images/listings/rt-018-1.jpg", "/images/listings/rt-018-2.jpg", "/images/listings/rt-018-3.jpg"],
-    agent: agents.divya,
-    listedDate: "2026-06-04",
-    featured: false,
-  },
-  {
-    id: "rt-019",
-    title: "Farmhouse plot with mango orchard, Moinabad",
-    address: "Chevella Road, Moinabad",
-    locality: "Moinabad",
-    city: "Hyderabad",
-    pincode: "501504",
-    lat: 17.2894,
-    lng: 78.2087,
-    price: 21000000,
-    pricePerSqft: 1050,
-    beds: 1,
-    baths: 1,
-    sqft: 20000,
-    propertyType: "Plot",
-    status: "For Sale",
-    furnishing: "Unfurnished",
-    facing: "North",
-    floor: null,
-    totalFloors: null,
-    yearBuilt: 2019,
-    parking: 4,
-    description:
-      "Half an acre on Chevella Road with roughly sixty mature mango trees and a single-room caretaker structure with power and a borewell already in place. Forty minutes from Gachibowli on a clear morning. Clear title, single owner since 2019.",
-    amenities: ["Mango orchard", "Borewell", "Electricity connection", "Caretaker room", "Compound fencing", "Clear title"],
-    images: ["/images/listings/rt-019-1.jpg", "/images/listings/rt-019-2.jpg"],
-    agent: agents.rajesh,
-    listedDate: "2026-05-08",
-    featured: false,
-  },
-  {
-    id: "rt-020",
-    title: "3BHK new launch, Uppal metro corridor",
-    address: "Ramanthapur Road, Uppal",
-    locality: "Uppal",
-    city: "Hyderabad",
-    pincode: "500039",
-    lat: 17.4058,
-    lng: 78.5591,
-    price: 9800000,
-    pricePerSqft: 5900,
-    beds: 3,
-    baths: 3,
-    sqft: 1660,
-    propertyType: "Apartment",
-    status: "New Launch",
-    furnishing: "Unfurnished",
-    facing: "East",
-    floor: 6,
-    totalFloors: 15,
-    yearBuilt: 2028,
-    parking: 1,
-    description:
-      "East Hyderabad has been the quiet story of the last two years, and this launch sits four hundred metres from Uppal metro on the Blue Line. Possession mid-2028, RERA registered, construction-linked payments.",
-    amenities: ["Metro nearby", "Clubhouse", "Gym", "Children's play area", "Power backup", "Lift", "Gated community"],
-    images: ["/images/listings/rt-020-1.jpg", "/images/listings/rt-020-2.jpg"],
-    agent: agents.sneha,
-    listedDate: "2026-07-14",
-    featured: false,
-  },
+const agentPool: Record<string, Agent> = {
+  rajesh: { name: "Rajesh Varma",  phone: "+91 98490 21134", email: "rajesh@discover.in", agency: "Discover Premium",     avatar: "" },
+  sneha:  { name: "Sneha Reddy",   phone: "+91 99590 44821", email: "sneha@discover.in",  agency: "Discover Premium",     avatar: "" },
+  imran:  { name: "Imran Qureshi", phone: "+91 90005 77310", email: "imran@discover.in",  agency: "Discover Residential", avatar: "" },
+  divya:  { name: "Divya Prasad",  phone: "+91 91777 30256", email: "divya@discover.in",  agency: "Discover Residential", avatar: "" },
+};
+const AGENT_KEYS = ["rajesh", "sneha", "imran", "divya"] as const;
+
+/* ── Placeholder images (Unsplash villas) ───────────────────────────────────── */
+
+const IMGS = [
+  "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
+  "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800&q=80",
+  "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
+  "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80",
+  "https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800&q=80",
+  "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&q=80",
+  "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80",
+  "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800&q=80",
+  "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800&q=80",
+  "https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?w=800&q=80",
+  "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80",
+  "https://images.unsplash.com/photo-1599809275671-b5942cabc7a2?w=800&q=80",
+  "https://images.unsplash.com/photo-1600607688969-a5bfcd646154?w=800&q=80",
+  "https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?w=800&q=80",
+  "https://images.unsplash.com/photo-1572120360610-d971b9d7767c?w=800&q=80",
+  "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80",
+  "https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=800&q=80",
+  "https://images.unsplash.com/photo-1602941525421-8f8b81d3edbb?w=800&q=80",
+  "https://images.unsplash.com/photo-1592595896551-12b371d546d5?w=800&q=80",
+  "https://images.unsplash.com/photo-1617104678098-de229db51175?w=800&q=80",
 ];
 
-/* ---------- helpers ---------- */
+/* ── Amenity pool ───────────────────────────────────────────────────────────── */
 
-/** ₹1.45Cr / ₹82L / ₹9,600 — Indian short-form currency. */
+const AMENITY_POOL = [
+  "Clubhouse", "Swimming pool", "Gymnasium", "Gated community",
+  "24/7 security", "Power backup", "CCTV", "Rainwater harvesting",
+  "Landscaped gardens", "Children's play area", "Jogging track",
+  "Tennis court", "Multipurpose hall", "EV charging",
+];
+
+/* ── Locality coordinates (approx. centroids) ───────────────────────────────── */
+
+const COORDS: Record<string, [number, number]> = {
+  "Pedda Golkonda":       [17.3205, 78.4195],
+  "Raviryala":            [17.2860, 78.5240],
+  "Adibatla":             [17.2780, 78.5720],
+  "Maheswaram":           [17.2120, 78.4560],
+  "Thummalur":            [17.2640, 78.5340],
+  "Harshaguda":           [17.2480, 78.5610],
+  "Manakhal":             [17.2370, 78.5820],
+  "Mamidipally":          [17.2260, 78.4410],
+  "Tukkuguda":            [17.2740, 78.5130],
+  "Basaguda":             [17.2820, 78.5520],
+  "Gaganapahed":          [17.2560, 78.5030],
+  "Gollur":               [17.2890, 78.4830],
+  "Immamguda":            [17.2440, 78.4960],
+  "Shamshabad":           [17.2450, 78.4310],
+  "Kardanur":             [17.4110, 78.2310],
+  "Tellapur":             [17.4920, 78.2840],
+  "Patiganpur":           [17.4230, 78.2140],
+  "Shankarpally":         [17.4510, 78.1940],
+  "Kollur":               [17.4730, 78.2520],
+  "Pati":                 [17.4320, 78.2240],
+  "Mokila":               [17.4640, 78.2420],
+  "Velimala":             [17.4370, 78.2170],
+  "Osman Nagar":          [17.4060, 78.2920],
+  "Mehtab Khan Gudem":    [17.4430, 78.2340],
+  "Gopanpally":           [17.4310, 78.3120],
+  "Nallagandla":          [17.4830, 78.3130],
+  "Kokapet":              [17.4050, 78.3280],
+  "Kondapur":             [17.4620, 78.3650],
+  "Manchirevula":         [17.3760, 78.3420],
+  "Gandipet":             [17.3910, 78.3440],
+  "Patancheruvu":         [17.5360, 78.2660],
+  "Isnapur":              [17.5560, 78.2810],
+  "Beeramguda":           [17.5460, 78.2370],
+  "Bandlaguda Jagir":     [17.3440, 78.4130],
+  "TSPA Junction":        [17.3360, 78.3820],
+  "Bandlaguda":           [17.3380, 78.4120],
+  "Attapur":              [17.3640, 78.4230],
+  "Golconda":             [17.3830, 78.4020],
+  "Budvel":               [17.3160, 78.4360],
+  "Rajendra Nagar":       [17.3410, 78.4310],
+  "Kismatpur":            [17.2920, 78.4620],
+  "Shamirpet":            [17.5880, 78.5130],
+  "Dundigal":             [17.6120, 78.4660],
+  "Pudur-Kompally":       [17.5460, 78.4910],
+  "Kompally":             [17.5410, 78.4860],
+  "Gowdavelli-Kompally":  [17.5530, 78.4930],
+  "Pudur-Medchal":        [17.5510, 78.5120],
+  "Kandlakoya-Medchal":   [17.5720, 78.5210],
+};
+
+/* ── Pincodes ───────────────────────────────────────────────────────────────── */
+
+const PINCODES: Record<string, string> = {
+  "Pedda Golkonda": "500028",  "Raviryala": "500052",       "Adibatla": "501510",
+  "Maheswaram": "500082",      "Thummalur": "500052",        "Harshaguda": "501510",
+  "Manakhal": "501510",        "Mamidipally": "501218",      "Tukkuguda": "501218",
+  "Basaguda": "500079",        "Gaganapahed": "500079",      "Gollur": "500028",
+  "Immamguda": "500028",       "Shamshabad": "501218",       "Kardanur": "502319",
+  "Tellapur": "502032",        "Patiganpur": "502319",       "Shankarpally": "501203",
+  "Kollur": "502019",          "Pati": "502319",             "Mokila": "501359",
+  "Velimala": "501359",        "Osman Nagar": "502032",      "Mehtab Khan Gudem": "502319",
+  "Gopanpally": "500019",      "Nallagandla": "500019",      "Kokapet": "500075",
+  "Kondapur": "500084",        "Manchirevula": "500089",     "Gandipet": "500075",
+  "Patancheruvu": "502319",    "Isnapur": "502270",          "Beeramguda": "502032",
+  "Bandlaguda Jagir": "500086","TSPA Junction": "500086",    "Bandlaguda": "500086",
+  "Attapur": "500048",         "Golconda": "500008",         "Budvel": "500086",
+  "Rajendra Nagar": "500052",  "Kismatpur": "500086",        "Shamirpet": "500078",
+  "Dundigal": "500043",        "Pudur-Kompally": "500014",   "Kompally": "500014",
+  "Gowdavelli-Kompally": "500014", "Pudur-Medchal": "501401","Kandlakoya-Medchal": "501401",
+};
+
+const FACINGS = ["East", "North", "West", "South", "North-East", "South-East", "North-West", "South-West"];
+const MONTHS  = ["04", "05", "06", "07", "08"];
+
+/* ── Locality normalizer ─────────────────────────────────────────────────────── */
+
+function resolveLocality(raw: string): string {
+  if (raw.includes("Thukkuguda") || raw.includes("Tukkuguda")) return "Tukkuguda";
+  if (raw.includes("Adhibatla") || raw.includes("Adibatla"))   return "Adibatla";
+  if (raw.includes("Raviryal"))                                 return "Raviryala";
+  if (raw.includes("Gopanpally"))                               return "Gopanpally";
+  if (raw.includes("Rajendra Nagar"))                           return "Rajendra Nagar";
+  if (raw.includes("Patancheruv"))                              return "Patancheruvu";
+  if (raw.includes("Pudur-Kompally"))                           return "Pudur-Kompally";
+  if (raw.includes("Gowdavelli"))                               return "Gowdavelli-Kompally";
+  if (raw.includes("Pudur-Medchal"))                            return "Pudur-Medchal";
+  if (raw.includes("Kandlakoya"))                               return "Kandlakoya-Medchal";
+  return raw.split(",")[0].trim();
+}
+
+/* ── Listing factory ─────────────────────────────────────────────────────────── */
+
+function mkVilla(
+  sno: number,
+  name: string,
+  rawLoc: string,
+  beds: number,
+  ppsf: number | null,     // price per sq ft; null → use crTotal
+  crTotal: number | null,  // total price in Crores; null → use ppsf
+  stage: "rtm" | "uc" | "launch",
+  yr: number,
+  featured = false,
+): Listing {
+  const locality  = resolveLocality(rawLoc);
+  const coords    = COORDS[locality] ?? [17.42, 78.38];
+  const sqft      = beds <= 3 ? 2800 : beds === 4 ? 3500 : beds === 5 ? 4500 : 5500;
+  const pricePsf  = ppsf ?? Math.round((crTotal! * 10_000_000) / sqft);
+  const price     = ppsf ? ppsf * sqft : Math.round(crTotal! * 10_000_000);
+  const jLat      = ((sno * 7 + 3) % 15 - 7) * 0.0004;
+  const jLng      = ((sno * 11 + 5) % 15 - 7) * 0.0004;
+  const yearBuilt = stage === "rtm" ? (yr || 2024) : yr;
+
+  const statusMap: Record<string, ListingStatus> = {
+    rtm: "Ready to Move", uc: "Under Construction", launch: "New Launch",
+  };
+
+  const amenities = AMENITY_POOL.filter((_, i) => (i + sno) % 9 !== 0).slice(0, 8);
+  const imgA = IMGS[(sno - 1) % IMGS.length];
+  const imgB = IMGS[(sno + 7)  % IMGS.length];
+
+  const stageDesc =
+    stage === "rtm"    ? "Ready to move in with occupancy certificate received." :
+    stage === "launch" ? `Pre-launch opportunity — expected handover ${yr}.` :
+                         `Under construction — expected handover ${yr}.`;
+
+  return {
+    id: `v-${String(sno).padStart(3, "0")}`,
+    title: `${name} — ${beds}BHK+HT Villa`,
+    address: `${name}, ${locality}, Hyderabad`,
+    locality,
+    city: "Hyderabad",
+    pincode: PINCODES[locality] ?? "500001",
+    lat: coords[0] + jLat,
+    lng: coords[1] + jLng,
+    price,
+    pricePerSqft: pricePsf,
+    beds,
+    baths: beds,
+    sqft,
+    propertyType: "Villa",
+    status: statusMap[stage],
+    furnishing: "Unfurnished",
+    facing: FACINGS[sno % FACINGS.length],
+    floor: null,
+    totalFloors: 3,
+    yearBuilt,
+    parking: 2,
+    description: `${name} is a luxury ${beds}BHK+Home Theatre villa project in ${locality}, Hyderabad. ${stageDesc} Premium gated community with clubhouse, swimming pool, gymnasium, and landscaped gardens.`,
+    amenities,
+    images: [imgA, imgB],
+    agent: agentPool[AGENT_KEYS[sno % 4]],
+    listedDate: `2026-${MONTHS[sno % 5]}-${String(((sno * 7) % 28) + 1).padStart(2, "0")}`,
+    featured,
+  };
+}
+
+/* ── Listings ────────────────────────────────────────────────────────────────── */
+
+export const listings: Listing[] = [
+  // ── SOUTH ZONE (1–44) ────────────────────────────────────────────────────────
+  mkVilla( 1, "Issara Belmond",          "Pedda Golkonda", 4, 14000, null,  "uc",     2026, true),
+  mkVilla( 2, "Sark South Meadows",      "Raviryala",      3,  9500, null,  "rtm",    2024),
+  mkVilla( 3, "Ace Apurva",              "Adibatla",       3,  8500, null,  "rtm",    2024),
+  mkVilla( 4, "Hallmark Oakshir",        "Maheswaram",     3,  7999, null,  "rtm",    2025),
+  mkVilla( 5, "Illika",                  "Adibatla",       4,  8000, null,  "uc",     2029),
+  mkVilla( 6, "Autumn",                  "Thummalur",      3,  6499, null,  "uc",     2028),
+  mkVilla( 7, "Vashnavi Elite",          "Adibatla",       4,  8000, null,  "uc",     2027),
+  mkVilla( 8, "Globus",                  "Harshaguda",     4,  5400, null,  "uc",     2028),
+  mkVilla( 9, "Globus Manakhal",         "Manakhal",       3,  6400, null,  "uc",     2028),
+  mkVilla(10, "Gruppe Elara",            "Raviryala",      4,  9500, null,  "uc",     2028),
+  mkVilla(11, "Aryama",                  "Adibatla",       4,  8500, null,  "uc",     2029),
+  mkVilla(12, "Western Park",            "Mamidipally",    4, 10000, null,  "rtm",    2024),
+  mkVilla(13, "IRA Square",              "Adibatla",       4,  9000, null,  "uc",     2026),
+  mkVilla(14, "IRA Urban Ranch",         "Adibatla",       4,  9500, null,  "uc",     2028),
+  mkVilla(15, "Vishal Sanjeevni",        "Tukkuguda",      5, 11500, null,  "rtm",    2024),
+  mkVilla(16, "Velora",                  "Tukkuguda",      4,  9999, null,  "uc",     2027),
+  mkVilla(17, "GHR Trivana",             "Tukkuguda",      4, 10000, null,  "uc",     2028),
+  mkVilla(18, "Habitat",                 "Tukkuguda",      4,  9500, null,  "uc",     2029),
+  mkVilla(19, "Identity Villas",         "Adibatla",       4, 11000, null,  "uc",     2029),
+  mkVilla(20, "Nest Makers",             "Basaguda",       4,  9500, null,  "uc",     2028),
+  mkVilla(21, "Casagrand Vybe",          "Gaganapahed",    4,  null,  4.30, "uc",     2029),
+  mkVilla(22, "Lacasa by E-Infra",       "Raviryala",      4,  9500, null,  "rtm",    2024),
+  mkVilla(23, "Artha",                   "Adibatla",       4,  8500, null,  "uc",     2029),
+  mkVilla(24, "Speed Constella",         "Tukkuguda",      4, 10500, null,  "rtm",    2025),
+  mkVilla(25, "Casagrand Windsor Court", "Tukkuguda",      4,  null,  4.50, "uc",     2027),
+  mkVilla(26, "Vertex Calysta",          "Tukkuguda",      3, 12000, null,  "uc",     2029),
+  mkVilla(27, "Fiora",                   "Tukkuguda",      4, 10000, null,  "uc",     2028),
+  mkVilla(28, "Identity Astha",          "Tukkuguda",      4, 11000, null,  "uc",     2027),
+  mkVilla(29, "Issara Venizia",          "Tukkuguda",      4, 12000, null,  "uc",     2030),
+  mkVilla(30, "Vaishnoi Southwoods",     "Mamidipally",    4, 13000, null,  "rtm",    2025),
+  mkVilla(31, "Arkala The Reserve",      "Tukkuguda",      4, 13000, null,  "uc",     2030),
+  mkVilla(32, "The Pointe",              "Gollur",         4, 12500, null,  "rtm",    2025),
+  mkVilla(33, "Altila",                  "Immamguda",      4, 12500, null,  "uc",     2028),
+  mkVilla(34, "Natures Edge",            "Tukkuguda",      4, 13000, null,  "uc",     2027),
+  mkVilla(35, "Vertex Florenza",         "Tukkuguda",      4, 12500, null,  "uc",     2027),
+  mkVilla(36, "Bridge Epsillion",        "Tukkuguda",      4, 13250, null,  "uc",     2027),
+  mkVilla(37, "Lios",                    "Tukkuguda",      4, 12000, null,  "uc",     2028),
+  mkVilla(38, "Keerthi Azure",           "Tukkuguda",      5, 12000, null,  "uc",     2029),
+  mkVilla(39, "Whispering Woods",        "Shamshabad",     5, 14000, null,  "uc",     2029, true),
+  mkVilla(40, "Ramky Reserve",           "Harshaguda",     5, 15000, null,  "uc",     2028, true),
+  mkVilla(41, "IRA Elevate",             "Shamshabad",     4,  null, 10.00, "uc",     2026),
+  mkVilla(42, "The Valley",              "Pedda Golkonda", 4, 18000, null,  "uc",     2027, true),
+  mkVilla(43, "EIPL Treasure Trove",     "Maheswaram",     4, 14000, null,  "uc",     2027),
+  mkVilla(44, "IRA Float",               "Shamshabad",     4,  null, 20.00, "uc",     2028),
+
+  // ── WEST ZONE (45–89) ────────────────────────────────────────────────────────
+  mkVilla(45, "Myra Eloria",             "Kardanur",            4,  8500, null,  "uc",     2029),
+  mkVilla(46, "Anmol Aurm",              "Kardanur",            4,  9000, null,  "uc",     2029),
+  mkVilla(47, "Anmol Aalaya",            "Kardanur",            4,  9000, null,  "uc",     2029),
+  mkVilla(48, "Surabhi Signature",       "Tellapur",            3, 13000, null,  "rtm",    2024),
+  mkVilla(49, "Shiva Sai Myra",          "Patiganpur",          3, 10000, null,  "rtm",    2024),
+  mkVilla(50, "Ramky Shankarpally",      "Shankarpally",        4,  9000, null,  "launch", 2029),
+  mkVilla(51, "R R Zenora",              "Kollur",              4, 11000, null,  "uc",     2029),
+  mkVilla(52, "Ankura IQON West",        "Shankarpally",        4, 11000, null,  "rtm",    2025),
+  mkVilla(53, "APR Praveens Eterno",     "Kollur",              4, 10000, null,  "rtm",    2024),
+  mkVilla(54, "Hallmark Nature Nest",    "Pati",                3, 13000, null,  "uc",     2027),
+  mkVilla(55, "Hallmark Floresta",       "Kollur",              3, 13000, null,  "uc",     2026),
+  mkVilla(56, "Infocity Villas",         "Patiganpur",          4, 10200, null,  "uc",     2027),
+  mkVilla(57, "Sridhaam Villas",         "Mokila",              4, 11000, null,  "uc",     2029),
+  mkVilla(58, "Hallmark Westlyn",        "Kollur",              4, 11000, null,  "uc",     2030),
+  mkVilla(59, "Elegans Emperio",         "Kollur",              4, 13000, null,  "rtm",    2024),
+  mkVilla(60, "Reliance La Valora",      "Kardanur",            4, 11500, null,  "uc",     2029),
+  mkVilla(61, "Bhavya Evora",            "Velimala",            4, 12300, null,  "rtm",    2024),
+  mkVilla(62, "Raichandani Orchid",      "Mokila",              4,  9600, null,  "uc",     2026),
+  mkVilla(63, "Kakathiya Mango Leaf",    "Osman Nagar",         4, 16000, null,  "rtm",    2024),
+  mkVilla(64, "TAG Patio",               "Mokila",              5, 12500, null,  "uc",     2027),
+  mkVilla(65, "TAG Santorini",           "Mokila",              5, 11500, null,  "uc",     2027),
+  mkVilla(66, "Srivari Meadows",         "Mokila",              4, 13000, null,  "rtm",    2024),
+  mkVilla(67, "S Square Urban Greens",   "Kollur",              3, 13000, null,  "rtm",    2024),
+  mkVilla(68, "Anukura Konak",           "Mehtab Khan Gudem",   4,  null,  5.00, "uc",     2027),
+  mkVilla(69, "Suvasa by Elegans",       "Velimala",            4, 15000, null,  "uc",     2029),
+  mkVilla(70, "Bella Vista",             "Tellapur",            4, 15500, null,  "rtm",    2024),
+  mkVilla(71, "Halcyon Homes",           "Tellapur",            4, 18500, null,  "rtm",    2024),
+  mkVilla(72, "Keerthi Verdure",         "Pati",                4, 14000, null,  "uc",     2029),
+  mkVilla(73, "Raadhey Raaga",           "Kollur",              4, 18500, null,  "rtm",    2024),
+  mkVilla(74, "Muppa Indraprastha",      "Gopanpally",          4, 18000, null,  "rtm",    2024),
+  mkVilla(75, "Hallmark County",         "Gopanpally",          4, 20000, null,  "rtm",    2024, true),
+  mkVilla(76, "Navanami",                "Kollur",              5, 15000, null,  "launch", 2030),
+  mkVilla(77, "Nivee Gardens",           "Tellapur",            4, 24000, null,  "rtm",    2024),
+  mkVilla(78, "Northstar Allura",        "Kokapet",             4, 19500, null,  "rtm",    2024, true),
+  mkVilla(79, "Sage by Raghava",         "Kollur",              5, 17500, null,  "uc",     2026),
+  mkVilla(80, "Vertex Kingston Park",    "Nallagandla",         4, 22000, null,  "uc",     2027),
+  mkVilla(81, "Majestic Villas",         "Kollur",              5, 16000, null,  "uc",     2028),
+  mkVilla(82, "Supadha Geethika",        "Velimala",            5, 21000, null,  "rtm",    2024),
+  mkVilla(83, "Hallmark Imperia",        "Gopanpally",          5, 25000, null,  "rtm",    2024),
+  mkVilla(84, "E-Infra Celosia",         "Osman Nagar",         4, 18000, null,  "uc",     2028),
+  mkVilla(85, "Bluefin Sylvanor",        "Mokila",              5, 21000, null,  "uc",     2027),
+  mkVilla(86, "Aikaa Sri Aditya",        "Gandipet",            5, 23000, null,  "uc",     2026),
+  mkVilla(87, "Hidden Cove Sri Aditya",  "Manchirevula",        5, 27500, null,  "uc",     2027),
+  mkVilla(88, "Aaranya Terminus",        "Gandipet",            5, 30000, null,  "uc",     2028, true),
+  mkVilla(89, "Kolla Luxuria",           "Kondapur",            4, 18000, null,  "rtm",    2024),
+
+  // ── NORTH-WEST ZONE (91–94) ───────────────────────────────────────────────────
+  mkVilla(91, "Elemental",               "Patancheruvu",        3,  8500, null,  "uc",     2029),
+  mkVilla(92, "Sansa County",            "Patancheruvu",        3,  8500, null,  "rtm",    2024),
+  mkVilla(93, "My Casa",                 "Isnapur",             3,  7700, null,  "uc",     2029),
+  mkVilla(94, "Ask Infra",               "Beeramguda",          3,  7000, null,  "uc",     2029),
+
+  // ── SOUTH-WEST ZONE (97–105) ──────────────────────────────────────────────────
+  mkVilla( 97, "Riverscape",             "Bandlaguda Jagir",    4, 14000, null,  "rtm",    2024),
+  mkVilla( 98, "Keerthi Sanctuary",      "TSPA Junction",       4, 16500, null,  "uc",     2026, true),
+  mkVilla( 99, "Keerthi Riverside",      "TSPA Junction",       4, 16500, null,  "rtm",    2024),
+  mkVilla(100, "Casa Carino",            "Bandlaguda",          4, 18000, null,  "rtm",    2024),
+  mkVilla(101, "Dev Signature",          "Attapur",             4, 14500, null,  "rtm",    2024),
+  mkVilla(102, "Tattvam",                "Golconda",            4, 18500, null,  "uc",     2027),
+  mkVilla(103, "Pranava Greenwich",      "Budvel",              4, 12500, null,  "uc",     2026),
+  mkVilla(104, "Oorjitha Armonia",       "Rajendra Nagar",      5, 22000, null,  "rtm",    2024),
+  mkVilla(105, "Giridhara Prospera",     "Kismatpur",           4, 20000, null,  "rtm",    2024),
+
+  // ── NORTH ZONE (106–114) ─────────────────────────────────────────────────────
+  mkVilla(106, "Prajy Tree Trops",       "Shamirpet",           3,  7000, null,  "rtm",    2024),
+  mkVilla(107, "Casagrand Sierra",       "Dundigal",            3,  null,  2.30, "uc",     2029),
+  mkVilla(108, "Raichandani Futnani",    "Shamirpet",           4,  7500, null,  "rtm",    2024),
+  mkVilla(109, "Krishe Avya",            "Pudur-Kompally",      4,  9500, null,  "uc",     2028),
+  mkVilla(110, "Indis Myra",             "Kompally",            3,  null,  4.00, "uc",     2026),
+  mkVilla(111, "Belair",                 "Gowdavelli-Kompally", 3,  null,  4.00, "uc",     2026),
+  mkVilla(112, "Crest Wood",             "Pudur-Medchal",       3,  null,  4.00, "uc",     2027),
+  mkVilla(113, "Casagrand Monaco",       "Kandlakoya-Medchal",  5,  null,  5.00, "uc",     2029),
+  mkVilla(114, "Elegance Sreyan",        "Kompally",            3, 13000, null,  "uc",     2027),
+
+  // ── EXTRA PROJECT (from additional data) ─────────────────────────────────────
+  mkVilla(115, "Bhavya Aspire Spaces",   "Kardanur",            4,  9500, null,  "uc",     2029),
+];
+
+/* ── Helpers ─────────────────────────────────────────────────────────────────── */
+
+/** ₹1.45Cr / ₹82L / ₹9,600 — Indian short-form currency */
 export function formatINR(rupees: number): string {
-  if (rupees >= 10000000) {
-    const cr = rupees / 10000000;
+  if (rupees >= 10_000_000) {
+    const cr = rupees / 10_000_000;
     return `₹${cr % 1 === 0 ? cr : cr.toFixed(2).replace(/0$/, "")}Cr`;
   }
-  if (rupees >= 100000) {
-    const lakh = rupees / 100000;
+  if (rupees >= 100_000) {
+    const lakh = rupees / 100_000;
     return `₹${lakh % 1 === 0 ? lakh : lakh.toFixed(1)}L`;
   }
   return `₹${rupees.toLocaleString("en-IN")}`;
@@ -707,18 +404,18 @@ export function formatPerSqft(value: number): string {
   return `₹${value.toLocaleString("en-IN")}/sqft`;
 }
 
-export const localities = [...new Set(listings.map((l) => l.locality))].sort();
-export const propertyTypes = [...new Set(listings.map((l) => l.propertyType))].sort();
+export const localities      = [...new Set(listings.map((l) => l.locality))].sort();
+export const propertyTypes   = [...new Set(listings.map((l) => l.propertyType))].sort() as PropertyType[];
 export const featuredListings = listings.filter((l) => l.featured);
 
 export function getListingById(id: string): Listing | undefined {
   return listings.find((l) => l.id === id);
 }
 
-/** Map bounds covering all listings — useful for Leaflet fitBounds on load. */
+/** Map bounds covering all listings — for Leaflet fitBounds on load */
 export const cityBounds: [[number, number], [number, number]] = [
-  [17.2894, 78.1985],
-  [17.5462, 78.5591],
+  [17.21, 78.19],
+  [17.62, 78.58],
 ];
 
-export const cityCenter: [number, number] = [17.4239, 78.4083];
+export const cityCenter: [number, number] = [17.42, 78.38];
