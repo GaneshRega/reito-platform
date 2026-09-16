@@ -6,7 +6,6 @@ import Link from "next/link";
 import { X } from "lucide-react";
 import StepShell from "@/components/iso-builder/StepShell";
 import StepLocation from "@/components/iso-builder/StepLocation";
-import StepTimeline from "@/components/iso-builder/StepTimeline";
 import StepBudget from "@/components/iso-builder/StepBudget";
 import StepPropertyType from "@/components/iso-builder/StepPropertyType";
 import StepPerks from "@/components/iso-builder/StepPerks";
@@ -15,7 +14,6 @@ import StepReady from "@/components/iso-builder/StepReady";
 /* ── State ───────────────────────────────────────────────── */
 interface ISOState {
   location: string;
-  timeline: number;
   budget: number;
   propertyTypes: string[];
   perks: string[];
@@ -23,7 +21,6 @@ interface ISOState {
 
 const INITIAL: ISOState = {
   location: "",
-  timeline: 12,
   budget: 15_000_000,
   propertyTypes: [],
   perks: [],
@@ -38,14 +35,18 @@ function variants(reduced: boolean | null) {
   };
 }
 
-const TOTAL_STEPS = 6;
+// TODO: add /home-match route as the canonical URL and redirect /iso → /home-match
+
+// Step order: 0=PropertyType, 1=Budget, 2=Location, 3=Perks, 4=Results
+const TOTAL_STEPS = 5;
+const QUESTION_STEPS = TOTAL_STEPS - 1; // steps 0–3 are questions; step 4 is Results
 
 type Stage = "intro" | "steps" | "gate" | "published";
 
 export default function ISOPage() {
   const reduced = useReducedMotion();
   const [stage, setStage] = useState<Stage>("intro");
-  const [step, setStep]   = useState(0); // 0=location … 5=ready
+  const [step, setStep]   = useState(0);
   const [iso, setIso]     = useState<ISOState>(INITIAL);
 
   const update = <K extends keyof ISOState>(key: K, val: ISOState[K]) =>
@@ -59,20 +60,20 @@ export default function ISOPage() {
     else setStage("intro");
   };
 
-  /* ── Intro screen (screen 2) ─────────────────────────── */
+  /* ── Intro screen ────────────────────────────────────── */
   if (stage === "intro") {
     return (
       <div
         className="relative min-h-screen flex flex-col items-center justify-center px-5 text-center"
         style={{ backgroundColor: "var(--paper)" }}
       >
-        {/* Gradient ground */}
+        {/* Gradient background */}
         <div
           className="pointer-events-none absolute inset-0"
           style={{
             background:
               "radial-gradient(ellipse 70% 60% at 20% 80%, #E8D9D0, transparent), radial-gradient(ellipse 60% 60% at 80% 10%, #D9CDC2, transparent)",
-            opacity: 0.45,
+            opacity: 0.55,
             filter: "blur(60px)",
           }}
           aria-hidden
@@ -88,7 +89,6 @@ export default function ISOPage() {
         </Link>
 
         <div className="relative z-10 flex flex-col items-center gap-6 max-w-sm">
-          {/* BETA pill */}
           <span
             className="px-3 py-1 rounded-full text-xs font-medium"
             style={{
@@ -110,12 +110,12 @@ export default function ISOPage() {
               color: "var(--ink)",
             }}
           >
-            Let&apos;s build your ISO.
+            Let&apos;s find your perfect home.
           </h1>
 
           <p style={{ fontSize: 17, color: "var(--ink-soft)", lineHeight: 1.55 }}>
-            An ISO is a profile of the home you&apos;re looking for.
-            Publish it and let owners find you.
+            Answer {QUESTION_STEPS} quick questions about the home you want, like type,
+            budget, location and amenities. We&apos;ll match you with properties that fit.
           </p>
 
           <div className="flex flex-col w-full gap-3 mt-2">
@@ -129,8 +129,11 @@ export default function ISOPage() {
                 fontWeight: 500,
               }}
             >
-              Create an ISO
+              Start my Home Match
             </button>
+            <p style={{ fontSize: 12, color: "var(--ink-faint)", textAlign: "center" }}>
+              {QUESTION_STEPS} questions · 1 minute
+            </p>
             <Link
               href="/listings"
               className="w-full py-3 rounded-full text-center transition-colors"
@@ -141,7 +144,7 @@ export default function ISOPage() {
                 fontWeight: 500,
               }}
             >
-              No thanks — I&apos;ll browse instead
+              No thanks, I&apos;ll browse instead
             </Link>
           </div>
         </div>
@@ -149,7 +152,7 @@ export default function ISOPage() {
     );
   }
 
-  /* ── Sign-in gate (fires only on publish) ────────────── */
+  /* ── Sign-in gate ────────────────────────────────────── */
   if (stage === "gate") {
     return (
       <div
@@ -170,10 +173,8 @@ export default function ISOPage() {
           </button>
 
           <div>
-            <h2
-              style={{ fontSize: 22, fontWeight: 500, letterSpacing: "-0.02em", color: "var(--ink)" }}
-            >
-              Save your ISO
+            <h2 style={{ fontSize: 22, fontWeight: 500, letterSpacing: "-0.02em", color: "var(--ink)" }}>
+              Save your Home Match
             </h2>
             <p className="mt-1" style={{ fontSize: 14, color: "var(--ink-soft)" }}>
               Sign in to publish and let owners find you.
@@ -218,10 +219,10 @@ export default function ISOPage() {
     );
   }
 
-  /* ── Step flow (screens 3–8) ─────────────────────────── */
+  /* ── Step flow ───────────────────────────────────────── */
   const nextDisabled =
-    (step === 0 && !iso.location.trim()) ||
-    (step === 3 && iso.propertyTypes.length === 0);
+    (step === 0 && iso.propertyTypes.length === 0) ||
+    (step === 2 && !iso.location.trim());
 
   return (
     <StepShell
@@ -243,41 +244,31 @@ export default function ISOPage() {
           className="w-full"
         >
           {step === 0 && (
-            <StepLocation
-              value={iso.location}
-              onChange={(v) => update("location", v)}
-            />
-          )}
-          {step === 1 && (
-            <StepTimeline
-              value={iso.timeline}
-              onChange={(v) => update("timeline", v)}
-            />
-          )}
-          {step === 2 && (
-            <StepBudget
-              value={iso.budget}
-              onChange={(v) => update("budget", v)}
-            />
-          )}
-          {step === 3 && (
             <StepPropertyType
               value={iso.propertyTypes}
               onChange={(v) => update("propertyTypes", v)}
             />
           )}
-          {step === 4 && (
+          {step === 1 && (
+            <StepBudget
+              value={iso.budget}
+              onChange={(v) => update("budget", v)}
+            />
+          )}
+          {step === 2 && (
+            <StepLocation
+              value={iso.location}
+              onChange={(v) => update("location", v)}
+            />
+          )}
+          {step === 3 && (
             <StepPerks
               value={iso.perks}
               onChange={(v) => update("perks", v)}
             />
           )}
-          {step === 5 && (
-            <StepReady
-              state={iso}
-              onPublish={() => setStage("gate")}
-              onMoreDetails={() => setStep(0)}
-            />
+          {step === 4 && (
+            <StepReady state={iso} onPublish={() => setStage("gate")} />
           )}
         </motion.div>
       </AnimatePresence>

@@ -55,7 +55,7 @@ export default function StepLocation({ value, onChange }: Props) {
             color: "var(--ink)",
           }}
         >
-          Where do you want to live?
+          Where are you looking?
         </h2>
       </div>
 

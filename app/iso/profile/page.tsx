@@ -101,7 +101,7 @@ export default function ISOProfilePage() {
           className="text-sm transition-opacity hover:opacity-70"
           style={{ color: "var(--ink-soft)" }}
         >
-          ← Edit ISO
+          ← Edit Home Match
         </Link>
       </header>
 
@@ -113,7 +113,7 @@ export default function ISOProfilePage() {
             letterSpacing: "0.14em", color: "var(--ink-faint)",
           }}
         >
-          Your ISO · Published
+          Your Home Match · Published
         </p>
 
         {/* ── Four-column editorial grid ─────────────────── */}

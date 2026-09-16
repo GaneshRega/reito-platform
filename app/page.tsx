@@ -1,31 +1,16 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import {
-  ArrowRight, ChevronLeft, ChevronRight, Search, ChevronDown,
-  Eye, Shield, Users, TrendingUp, Star, Lock, Zap, PhoneOff,
+  ArrowRight, Search, ChevronDown,
+  Shield, Star, Lock, Zap,
 } from "lucide-react";
-import isosData from "@/data/isos.json";
-import { formatBudget, formatTimeline } from "@/lib/format";
 import { listings } from "@/lib/mockData";
 import ListingCard from "@/components/ListingCard";
 import CIFModal from "@/components/CIFModal";
-
-/* ── ISO type ─────────────────────────────────────────────── */
-interface ISO {
-  id: string;
-  buyer: { name: string; initials: string };
-  location: string;
-  budget: number;
-  timeline: number;
-  propertyType: string;
-  perks: string[];
-  headline: string;
-}
-const isos = isosData as ISO[];
 
 /* ── Animation variant ───────────────────────────────────── */
 const fadeUp = {
@@ -49,26 +34,26 @@ const STATS = [
   { value: "< 48 hrs", label: "Average owner response time" },
 ];
 
-const FEATURES = [
+const BENEFITS = [
   {
-    icon: Eye,
-    title: "First look, always",
-    body: "Homes appear on DISCOVER before any public portal. Queue early, decide calmly — not in a bidding frenzy.",
+    n: "01",
+    title: "First look",
+    body: "Homes appear on DISCOVER before any public portal.",
   },
   {
-    icon: PhoneOff,
-    title: "Owner-initiated contact",
-    body: "No cold calls. No agent pressure. Owners review your profile and reach out only when genuinely interested.",
+    n: "02",
+    title: "Direct connection",
+    body: "Owners review your profile and reach out when genuinely interested.",
   },
   {
-    icon: Users,
-    title: "Verified buyers only",
-    body: "Every ISO is a real person with a verified budget and timeline. Owners know exactly who's waiting.",
+    n: "03",
+    title: "Verified buyers",
+    body: "Every buyer has a verified profile and clear intent.",
   },
   {
-    icon: TrendingUp,
-    title: "Zero commission. Ever.",
-    body: "Direct owner-to-buyer. The money saved on broker fees stays exactly where it belongs — with you.",
+    n: "04",
+    title: "Zero commission",
+    body: "Buy directly from owners without unnecessary brokerage fees.",
   },
 ];
 
@@ -86,7 +71,7 @@ const TESTIMONIALS = [
     initials: "VR",
   },
   {
-    quote: "Published our ISO on a Tuesday. By Friday, three homeowners had contacted us directly. This is what finding a home should feel like.",
+    quote: "Set up our Home Match on a Tuesday. By Friday, we'd found our home. This is what finding a home should feel like.",
     name: "Rahul Krishnan",
     role: "Buyer · Financial District",
     initials: "RK",
@@ -115,7 +100,7 @@ const HOW: { side: string; steps: { n: number; title: string; body: string }[] }
   {
     side: "For Buyers",
     steps: [
-      { n: 1, title: "Describe what you want", body: "Location, timeline, budget, must-haves. This is your ISO — a profile of the home you're looking for." },
+      { n: 1, title: "Describe what you want", body: "Location, timeline, budget, must-haves. This is your Home Match — a profile of the home you're looking for." },
       { n: 2, title: "Publish it", body: "Owners of matching homes can see you're out there. No cold contact — you wait, they reach out." },
       { n: 3, title: "The owner comes to you", body: "When they're ready, they initiate the conversation. On their terms, in their time." },
     ],
@@ -146,12 +131,6 @@ export default function HomePage() {
   const reduced = useReducedMotion();
   const [address, setAddress] = useState("");
   const [cifOpen, setCifOpen] = useState(false);
-  const carouselRef = useRef<HTMLDivElement>(null);
-
-  const scrollBy = (dir: number) => {
-    carouselRef.current?.scrollBy({ left: dir * 316, behavior: "smooth" });
-  };
-
   return (
     <div className="min-h-screen" style={{ backgroundColor: "var(--paper)" }}>
 
@@ -160,7 +139,7 @@ export default function HomePage() {
         className="sticky top-0 z-50 grid grid-cols-[auto_1fr_auto] items-center gap-4 px-5 md:px-10 h-14"
         style={{ backgroundColor: "var(--paper)", borderBottom: "1px solid var(--rule)" }}
       >
-        <Link href="/" style={{ fontWeight: 400, fontSize: 15, letterSpacing: "0.4em", textTransform: "uppercase", color: "var(--ink)" }}>
+        <Link href="/" style={{ fontWeight: 500, fontSize: 20, letterSpacing: "0.4em", textTransform: "uppercase", color: "var(--ink)" }}>
           DISCOVER
         </Link>
 
@@ -224,8 +203,8 @@ export default function HomePage() {
         />
 
         {/* Content */}
-        <div className="relative z-10 h-full flex flex-col justify-center px-5 md:px-10 pt-14">
-          <div className="max-w-[640px]">
+        <div className="relative z-10 h-full flex flex-col justify-center items-center px-5 md:px-10 pt-14 text-center">
+          <div className="max-w-[640px] w-full">
             <motion.h1
               initial={{ opacity: 0, y: reduced ? 0 : 16 }}
               animate={{ opacity: 1, y: 0 }}
@@ -239,7 +218,7 @@ export default function HomePage() {
               initial={{ opacity: 0, y: reduced ? 0 : 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.09, ease: [0.22, 0.61, 0.36, 1] }}
-              style={{ fontSize: 17, color: "rgba(255,255,255,0.76)", lineHeight: 1.58, marginTop: 22, maxWidth: 460 }}
+              style={{ fontSize: 17, color: "rgba(255,255,255,0.76)", lineHeight: 1.58, marginTop: 22, maxWidth: 460, marginLeft: "auto", marginRight: "auto" }}
             >
               Describe the home you want. Owners of matching homes see you&apos;re
               waiting — and reach out when they&apos;re ready.
@@ -251,6 +230,7 @@ export default function HomePage() {
               transition={{ duration: 0.5, delay: 0.17, ease: [0.22, 0.61, 0.36, 1] }}
               className="flex items-center gap-4 mt-10 mb-5"
             >
+              <div style={{ flex: 1, height: 1, backgroundColor: "rgba(255,255,255,0.18)" }} />
               <span style={{ fontSize: 11, fontWeight: 500, letterSpacing: "0.16em", textTransform: "uppercase", color: "rgba(255,255,255,0.42)", whiteSpace: "nowrap" }}>
                 How would you like to begin?
               </span>
@@ -261,20 +241,20 @@ export default function HomePage() {
               initial={{ opacity: 0, y: reduced ? 0 : 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, delay: 0.25, ease: [0.22, 0.61, 0.36, 1] }}
-              className="flex flex-col sm:flex-row gap-3"
-              style={{ maxWidth: 440 }}
+              className="flex flex-col sm:flex-row gap-3 mx-auto"
+              style={{ maxWidth: 480 }}
             >
               <Link
                 href="/iso"
-                className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-full font-medium transition-opacity hover:opacity-90"
-                style={{ backgroundColor: "#FFFFFF", color: "var(--ink)", fontSize: 15 }}
+                className="flex-1 flex items-center justify-center gap-2 py-5 rounded-full font-medium transition-opacity hover:opacity-90"
+                style={{ backgroundColor: "#FFFFFF", color: "var(--ink)", fontSize: 17 }}
               >
-                Find your next home <ArrowRight size={15} />
+                Find your next home <ArrowRight size={17} />
               </Link>
               <Link
                 href="/claim"
-                className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-full font-medium transition-colors"
-                style={{ border: "1.5px solid rgba(255,255,255,0.44)", color: "#FFFFFF", fontSize: 15 }}
+                className="flex-1 flex items-center justify-center gap-2 py-5 rounded-full font-medium transition-colors"
+                style={{ border: "1.5px solid rgba(255,255,255,0.44)", color: "#FFFFFF", fontSize: 17 }}
                 onMouseEnter={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.80)")}
                 onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.44)")}
               >
@@ -330,80 +310,76 @@ export default function HomePage() {
       </section>
 
       {/* ══════════════════════════════════════════════════════
-          FEATURES — Why DISCOVER
+          WHY DISCOVER — Editorial
           ══════════════════════════════════════════════════════ */}
-      <section className="px-5 md:px-10 py-20">
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
-          className="mb-12"
-        >
-          <p style={{ fontSize: 12, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--ink-faint)", marginBottom: 10 }}>
-            Why DISCOVER
-          </p>
-          <h2 style={{ fontSize: "clamp(28px, 3.5vw, 44px)", fontWeight: 500, letterSpacing: "-0.025em", color: "var(--ink)", lineHeight: 1.08, maxWidth: 560 }}>
-            Everything broken about property search, fixed.
-          </h2>
-        </motion.div>
+      <section className="px-5 md:px-10 py-24 md:py-32">
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {FEATURES.map(({ icon: Icon, title, body }, i) => (
+        {/* Intro: two-column editorial */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-20 items-center mb-20 lg:mb-28">
+
+          {/* Left: text */}
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+          >
+            <p style={{ fontSize: 11, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.16em", color: "var(--ink-faint)", marginBottom: 22 }}>
+              WHY DISCOVER
+            </p>
+            <h2 style={{ fontSize: "clamp(32px, 4vw, 54px)", fontWeight: 500, letterSpacing: "-0.03em", color: "var(--ink)", lineHeight: 1.06, marginBottom: 22 }}>
+              A different way<br />to find home.
+            </h2>
+            <p style={{ fontSize: 17, color: "var(--ink-soft)", lineHeight: 1.62, maxWidth: 380 }}>
+              Discover verified homes through genuine connections — without the usual noise.
+            </p>
+          </motion.div>
+
+          {/* Right: image */}
+          <motion.div
+            custom={1}
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            className="relative overflow-hidden"
+            style={{ borderRadius: 6, aspectRatio: "4/3" }}
+          >
+            <Image
+              src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80"
+              alt=""
+              fill
+              style={{ objectFit: "cover", objectPosition: "center" }}
+            />
+          </motion.div>
+        </div>
+
+        {/* Four numbered benefits */}
+        <div style={{ borderTop: "1px solid var(--rule)" }}>
+          {BENEFITS.map(({ n, title, body }, i) => (
             <motion.div
-              key={title}
+              key={n}
               custom={i}
               variants={fadeUp}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, margin: "-60px" }}
-              className="flex flex-col gap-5 p-6 rounded-[16px]"
-              style={{ backgroundColor: "var(--paper-cool)", border: "1px solid var(--rule)" }}
+              viewport={{ once: true, margin: "-50px" }}
+              className="py-7 grid grid-cols-[40px_1fr] md:grid-cols-[72px_1fr_1fr] items-start gap-x-6 md:gap-x-10"
+              style={{ borderBottom: "1px solid var(--rule)" }}
             >
-              <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
-                style={{ backgroundColor: "var(--paper-warm)" }}
+              <span style={{ fontSize: 13, fontWeight: 500, letterSpacing: "0.05em", color: "var(--ink-faint)", paddingTop: 3 }}>
+                {n}
+              </span>
+              <p style={{ fontSize: 17, fontWeight: 500, color: "var(--ink)", letterSpacing: "-0.015em", lineHeight: 1.35 }}>
+                {title}
+              </p>
+              <p
+                className="col-start-2 md:col-start-3 mt-1 md:mt-0"
+                style={{ fontSize: 15, color: "var(--ink-soft)", lineHeight: 1.65 }}
               >
-                <Icon size={18} style={{ color: "var(--ink-soft)" }} />
-              </div>
-              <div>
-                <p style={{ fontSize: 15, fontWeight: 600, color: "var(--ink)", marginBottom: 8 }}>{title}</p>
-                <p style={{ fontSize: 14, color: "var(--ink-soft)", lineHeight: 1.65 }}>{body}</p>
-              </div>
+                {body}
+              </p>
             </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════
-          ISO CAROUSEL — Who's looking right now
-          ══════════════════════════════════════════════════════ */}
-      <section
-        className="py-14 overflow-hidden"
-        style={{ borderTop: "1px solid var(--rule)" }}
-        aria-label="Recent ISOs"
-      >
-        <div className="px-5 md:px-10 flex items-center justify-between mb-6">
-          <p style={{ fontSize: 12, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--ink-faint)" }}>
-            Who&apos;s looking right now
-          </p>
-          <div className="flex gap-2">
-            <button onClick={() => scrollBy(-1)} className="p-2 rounded-full" style={{ border: "1px solid var(--rule)", color: "var(--ink-soft)", cursor: "pointer", background: "transparent" }} aria-label="Previous">
-              <ChevronLeft size={16} />
-            </button>
-            <button onClick={() => scrollBy(1)} className="p-2 rounded-full" style={{ border: "1px solid var(--rule)", color: "var(--ink-soft)", cursor: "pointer", background: "transparent" }} aria-label="Next">
-              <ChevronRight size={16} />
-            </button>
-          </div>
-        </div>
-
-        <div
-          ref={carouselRef}
-          className="flex gap-4 pl-5 md:pl-10"
-          style={{ overflowX: "auto", scrollSnapType: "x mandatory", scrollbarWidth: "none" }}
-        >
-          {[...isos, ...isos].map((iso, i) => (
-            <ISOCard key={`${iso.id}-${i}`} iso={iso} />
           ))}
         </div>
       </section>
@@ -636,7 +612,7 @@ export default function HomePage() {
             See who&apos;s waiting.
           </p>
           <p className="mb-8 mt-2" style={{ fontSize: 17, color: "var(--ink-soft)", lineHeight: 1.55 }}>
-            Enter your home&apos;s address to see ISOs from buyers looking for something like yours.
+            Enter your home&apos;s address to see what buyers are looking for.
           </p>
           <div className="flex flex-col sm:flex-row gap-3">
             <input
@@ -693,40 +669,3 @@ export default function HomePage() {
   );
 }
 
-/* ── ISO card ────────────────────────────────────────────── */
-function ISOCard({ iso }: { iso: ISO }) {
-  return (
-    <div
-      className="shrink-0 flex flex-col gap-4 p-5 rounded-[14px]"
-      style={{ width: 300, scrollSnapAlign: "start", backgroundColor: "var(--paper-cool)", border: "1px solid var(--rule)", boxShadow: "var(--lift)" }}
-    >
-      <div className="flex items-center gap-3">
-        <div
-          className="w-9 h-9 rounded-full flex items-center justify-center shrink-0 text-sm font-semibold"
-          style={{ backgroundColor: "var(--paper-warm)", color: "var(--ink-soft)" }}
-        >
-          {iso.buyer.initials}
-        </div>
-        <div>
-          <p style={{ fontSize: 14, fontWeight: 500, color: "var(--ink)" }}>{iso.buyer.name}</p>
-          <p style={{ fontSize: 12, color: "var(--ink-faint)" }}>{iso.location}</p>
-        </div>
-      </div>
-      <p style={{ fontSize: 14, color: "var(--ink-soft)", lineHeight: 1.5, flexGrow: 1 }}>
-        &ldquo;{iso.headline}&rdquo;
-      </p>
-      <div className="flex gap-4 pt-3" style={{ borderTop: "1px solid var(--rule)" }}>
-        {[
-          { label: "Budget",   value: formatBudget(iso.budget)   },
-          { label: "Timeline", value: formatTimeline(iso.timeline) },
-          { label: "Type",     value: iso.propertyType            },
-        ].map(({ label, value }) => (
-          <div key={label}>
-            <p style={{ fontSize: 11, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.12em", color: "var(--ink-faint)" }}>{label}</p>
-            <p style={{ fontSize: 14, fontWeight: 700, color: "var(--ink)", marginTop: 2 }}>{value}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}

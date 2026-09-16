@@ -51,6 +51,21 @@ export default function StepBudget({ value, onChange }: Props) {
 
   return (
     <div className="flex flex-col items-center gap-10 w-full max-w-lg mx-auto">
+      {/* ── Question ─────────────────────────────────────── */}
+      <div className="text-center">
+        <h2
+          style={{
+            fontSize: "clamp(26px, 3.8vw, 46px)",
+            fontWeight: 500,
+            letterSpacing: "-0.03em",
+            lineHeight: 1.08,
+            color: "var(--ink)",
+          }}
+        >
+          What&apos;s your budget?
+        </h2>
+      </div>
+
       {/* ── Numeral display ──────────────────────────────── */}
       <div className="flex flex-col items-center gap-1 select-none">
         <motion.p

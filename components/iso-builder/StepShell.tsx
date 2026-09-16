@@ -4,33 +4,25 @@ import { useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { X, ArrowLeft } from "lucide-react";
 
-/* Each step supplies its own gradient positions so the light shifts. */
 const STEP_GRADIENTS = [
   "radial-gradient(ellipse 70% 60% at 20% 80%, #E8D9D0, transparent), radial-gradient(ellipse 60% 60% at 80% 10%, #D9CDC2, transparent)",
-  "radial-gradient(ellipse 70% 60% at 80% 90%, #E8D9D0, transparent), radial-gradient(ellipse 60% 60% at 10% 10%, #D9CDC2, transparent)",
   "radial-gradient(ellipse 80% 60% at 50% 100%, #E8D9D0, transparent), radial-gradient(ellipse 60% 60% at 90% 0%, #D9CDC2, transparent)",
   "radial-gradient(ellipse 60% 70% at 10% 70%, #E8D9D0, transparent), radial-gradient(ellipse 70% 60% at 70% 20%, #D9CDC2, transparent)",
   "radial-gradient(ellipse 80% 60% at 0% 50%, #E8D9D0, transparent), radial-gradient(ellipse 60% 60% at 100% 50%, #D9CDC2, transparent)",
   "radial-gradient(ellipse 70% 80% at 30% 90%, #E8D9D0, transparent), radial-gradient(ellipse 60% 60% at 70% 0%, #D9CDC2, transparent)",
 ];
 
-const STEP_LABELS = [
-  "Location",
-  "Timeline",
-  "Budget",
-  "Type",
-  "Perks",
-  "Ready",
-];
+const STEP_LABELS = ["Type", "Budget", "Location", "Perks", "Results"];
 
 interface Props {
-  step: number;         // 0-based, 0=Location … 5=Ready
+  step: number;
   totalSteps: number;
   onBack: () => void;
   onNext: () => void;
   nextLabel?: string;
   nextDisabled?: boolean;
   children: React.ReactNode;
+  stretch?: boolean;
 }
 
 export default function StepShell({
@@ -41,6 +33,7 @@ export default function StepShell({
   nextLabel = "Continue",
   nextDisabled = false,
   children,
+  stretch = false,
 }: Props) {
   const reduced = useReducedMotion();
   const gradient = STEP_GRADIENTS[step % STEP_GRADIENTS.length];
@@ -48,23 +41,22 @@ export default function StepShell({
 
   return (
     <div
-      className="relative min-h-screen flex flex-col overflow-hidden"
+      className={`relative flex flex-col overflow-hidden ${stretch ? "h-screen" : "min-h-screen"}`}
       style={{ backgroundColor: "var(--paper)" }}
     >
-      {/* Gradient ground */}
+      {/* Gradient background */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
           background: gradient,
-          opacity: 0.45,
+          opacity: 0.55,
           filter: reduced ? "none" : "blur(60px)",
         }}
         aria-hidden
       />
 
       {/* ── Top bar ────────────────────────────────────────── */}
-      <header className="relative z-10 flex items-center justify-between px-5 pt-6 pb-4">
-        {/* Wordmark */}
+      <header className="relative z-10 flex items-center justify-between px-5 pt-6 pb-4 shrink-0">
         <Link
           href="/"
           style={{
@@ -86,10 +78,7 @@ export default function StepShell({
           >
             <div
               className="h-full rounded-full transition-all duration-500"
-              style={{
-                width: `${progress}%`,
-                backgroundColor: "var(--gold)",
-              }}
+              style={{ width: `${progress}%`, backgroundColor: "var(--gold)" }}
             />
           </div>
           <p
@@ -102,11 +91,12 @@ export default function StepShell({
               color: "var(--ink-faint)",
             }}
           >
-            {STEP_LABELS[step]} · {step + 1} of {totalSteps}
+            {step < totalSteps - 1
+                ? `Question ${step + 1} of ${totalSteps - 1} · ${STEP_LABELS[step]}`
+                : "Results"}
           </p>
         </div>
 
-        {/* Close */}
         <Link
           href="/"
           aria-label="Discard and return home"
@@ -117,14 +107,39 @@ export default function StepShell({
         </Link>
       </header>
 
-      {/* ── Step content ───────────────────────────────────── */}
-      <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-5 py-8">
+      {/* ── Step content + Continue button ─────────────────── */}
+      <main
+        className={`relative z-10 flex-1 px-5 pt-8 ${
+          stretch
+            ? "overflow-y-auto pb-10"
+            : "flex flex-col items-center justify-center pb-4"
+        }`}
+      >
         {children}
+
+        {/* Continue / Publish — sits directly below step content */}
+        <div className="flex justify-center mt-10">
+          <button
+            onClick={onNext}
+            disabled={nextDisabled}
+            className="px-10 py-3.5 rounded-full transition-opacity"
+            style={{
+              backgroundColor: "var(--ink)",
+              color: "var(--paper)",
+              fontSize: 15,
+              fontWeight: 500,
+              opacity: nextDisabled ? 0.35 : 1,
+              cursor: nextDisabled ? "default" : "pointer",
+            }}
+          >
+            {nextLabel}
+          </button>
+        </div>
       </main>
 
-      {/* ── Nav arrows ─────────────────────────────────────── */}
+      {/* ── Footer — Back button only ───────────────────────── */}
       <nav
-        className="relative z-10 flex items-center justify-between px-5 pb-8 pt-4"
+        className="relative z-10 shrink-0 flex items-center px-5 pb-8 pt-4"
         style={{ borderTop: "1px solid var(--rule)" }}
       >
         <button
@@ -142,22 +157,6 @@ export default function StepShell({
         >
           <ArrowLeft size={16} />
           Back
-        </button>
-
-        <button
-          onClick={onNext}
-          disabled={nextDisabled}
-          className="px-8 py-3 rounded-full transition-opacity"
-          style={{
-            backgroundColor: "var(--ink)",
-            color: "var(--paper)",
-            fontSize: 14,
-            fontWeight: 500,
-            opacity: nextDisabled ? 0.35 : 1,
-            cursor: nextDisabled ? "default" : "pointer",
-          }}
-        >
-          {nextLabel}
         </button>
       </nav>
     </div>
