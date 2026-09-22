@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -18,7 +18,19 @@ interface Props {
   onNext:  () => void;
 }
 
+const ROOM_SETS = [
+  ["Living Area",  "Master Bedroom", "Kitchen",  "Balcony"     ],
+  ["Hall",         "Kitchen",        "Bedroom",  "Terrace"     ],
+  ["Exterior",     "Bedroom",        "Bathroom", "Living Room" ],
+  ["Drawing Room", "Kitchen",        "Terrace",  "Master Suite"],
+  ["Lobby",        "Master Suite",   "Balcony",  "Study"       ],
+  ["Living Room",  "Study",          "Kitchen",  "Bedroom"     ],
+];
+
 export default function ListingModal({ home, idx, total, onClose, onPrev, onNext }: Props) {
+  const [imgIdx, setImgIdx] = useState(0);
+
+  useEffect(() => { setImgIdx(0); }, [home.id]);
 
   useEffect(() => {
     function handler(e: KeyboardEvent) {
@@ -36,6 +48,9 @@ export default function ListingModal({ home, idx, total, onClose, onPrev, onNext
   }, []);
 
   const images = home.images;
+
+  const sno = parseInt(home.id.replace(/[^0-9]/g, ""), 10) || 0;
+  const roomLabels = images.map((_, i) => ROOM_SETS[sno % ROOM_SETS.length][i] ?? `Photo ${i + 1}`);
 
   const details = [
     { label: "Property type", value: home.propertyType },
@@ -104,32 +119,47 @@ export default function ListingModal({ home, idx, total, onClose, onPrev, onNext
         {/* ── Scrollable body ── */}
         <div className="flex-1 overflow-y-auto" style={{ minHeight: 0 }}>
 
-          {/* ── Image collage ── */}
+          {/* ── Image collage / selected room ── */}
           <div className="relative" style={{ height: 280 }}>
-            {/* Mobile: single full image */}
-            <div className="sm:hidden relative h-full">
-              <Image src={images[0]} alt={home.title} fill style={{ objectFit: "cover" }} sizes="100vw" priority />
-            </div>
-
-            {/* Desktop: left big + right 2-stack */}
-            <div className="hidden sm:grid h-full" style={{ gridTemplateColumns: "3fr 2fr", gap: 2 }}>
-              <div className="relative">
-                <Image src={images[0]} alt={home.title} fill style={{ objectFit: "cover" }} sizes="430px" priority />
-              </div>
-              <div className="grid h-full" style={{ gridTemplateRows: "1fr 1fr", gap: 2 }}>
-                {[images[1] ?? images[0], images[2] ?? images[0]].map((src, i) => (
-                  <div key={i} className="relative">
-                    <Image
-                      src={src}
-                      alt={`${home.title} — view ${i + 2}`}
-                      fill
-                      style={{ objectFit: "cover" }}
-                      sizes="290px"
-                    />
+            {imgIdx === 0 ? (
+              <>
+                {/* Mobile: single full image */}
+                <div className="sm:hidden relative h-full">
+                  <Image src={images[0]} alt={home.title} fill style={{ objectFit: "cover" }} sizes="100vw" priority />
+                </div>
+                {/* Desktop: left big + right 2-stack */}
+                <div className="hidden sm:grid h-full" style={{ gridTemplateColumns: "3fr 2fr", gap: 2 }}>
+                  <div className="relative">
+                    <Image src={images[0]} alt={home.title} fill style={{ objectFit: "cover" }} sizes="430px" priority />
                   </div>
-                ))}
+                  <div className="grid h-full" style={{ gridTemplateRows: "1fr 1fr", gap: 2 }}>
+                    {[images[1] ?? images[0], images[2] ?? images[0]].map((src, i) => (
+                      <div key={i} className="relative">
+                        <Image src={src} alt={`${home.title} — view ${i + 2}`} fill style={{ objectFit: "cover" }} sizes="290px" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </>
+            ) : (
+              /* Selected room: single full-bleed image */
+              <div className="relative h-full">
+                <Image
+                  src={images[imgIdx]}
+                  alt={roomLabels[imgIdx]}
+                  fill
+                  style={{ objectFit: "cover" }}
+                  sizes="720px"
+                />
+                {/* Room label badge */}
+                <span
+                  className="absolute top-3 left-3 text-[11px] font-semibold px-3 py-1.5 rounded-full"
+                  style={{ backgroundColor: "rgba(247,244,239,0.93)", backdropFilter: "blur(4px)", color: "var(--ink)" }}
+                >
+                  {roomLabels[imgIdx]}
+                </span>
               </div>
-            </div>
+            )}
 
             {/* See all photos */}
             <button
@@ -143,6 +173,34 @@ export default function ListingModal({ home, idx, total, onClose, onPrev, onNext
             >
               See all {images.length} photos
             </button>
+          </div>
+
+          {/* ── Room tabs ── */}
+          <div
+            className="flex items-center gap-2 px-5 py-2.5 overflow-x-auto shrink-0"
+            style={{ borderBottom: "1px solid var(--rule)", backgroundColor: "var(--paper-cool)", scrollbarWidth: "none" }}
+          >
+            {images.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setImgIdx(i)}
+                style={{
+                  padding: "5px 14px",
+                  borderRadius: 9999,
+                  fontSize: 12,
+                  fontWeight: imgIdx === i ? 600 : 400,
+                  border: imgIdx === i ? "1.5px solid var(--ink)" : "1px solid var(--rule)",
+                  backgroundColor: imgIdx === i ? "var(--ink)" : "var(--paper)",
+                  color: imgIdx === i ? "var(--paper)" : "var(--ink-soft)",
+                  cursor: "pointer",
+                  flexShrink: 0,
+                  whiteSpace: "nowrap",
+                  transition: "background-color 0.15s, color 0.15s, border-color 0.15s",
+                }}
+              >
+                {roomLabels[i]}
+              </button>
+            ))}
           </div>
 
           {/* ── Title + address ── */}
