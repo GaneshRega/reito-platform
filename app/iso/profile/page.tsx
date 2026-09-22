@@ -89,8 +89,8 @@ export default function ISOProfilePage() {
         <Link
           href="/"
           style={{
-            fontWeight: 500, fontSize: 15,
-            letterSpacing: "0.42em", textTransform: "uppercase",
+            fontWeight: 500, fontSize: 20,
+            letterSpacing: "0.4em", textTransform: "uppercase",
             color: "var(--ink)",
           }}
         >

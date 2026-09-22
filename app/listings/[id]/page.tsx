@@ -146,15 +146,15 @@ export default async function ListingDetailPage({
             >
               Discover homes
             </Link>
-            {["How it works", "For Owners"].map((label) => (
-              <a
+            {[{ label: "How it works", href: "/how-it-works" }, { label: "Sell your home", href: "/sell" }].map(({ label, href }) => (
+              <Link
                 key={label}
-                href="/#how"
+                href={href}
                 style={{ fontSize: 14, color: "var(--ink-soft)", fontWeight: 500 }}
                 className="transition-opacity hover:opacity-70"
               >
                 {label}
-              </a>
+              </Link>
             ))}
           </nav>
           <Link
