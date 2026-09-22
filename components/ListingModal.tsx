@@ -81,7 +81,7 @@ export default function ListingModal({ home, idx, total, onClose, onPrev, onNext
           className="shrink-0 flex items-center justify-between px-5 py-3.5"
           style={{ borderBottom: "1px solid var(--rule)" }}
         >
-          <span style={{ fontWeight: 800, fontSize: 14, letterSpacing: "-0.04em", color: "var(--ink)" }}>
+          <span style={{ fontWeight: 500, fontSize: 20, letterSpacing: "0.4em", textTransform: "uppercase", color: "var(--ink)" }}>
             DISCOVER
           </span>
           <button
