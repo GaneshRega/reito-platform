@@ -74,7 +74,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         style={{ backgroundColor: "var(--paper)", borderRight: "1px solid var(--rule)" }}
       >
         <div className="flex items-center justify-between px-4 h-12" style={{ borderBottom: "1px solid var(--rule)" }}>
-          <span style={{ fontSize: 13, fontWeight: 600, letterSpacing: "0.3em", textTransform: "uppercase", color: "var(--ink)" }}>
+          <span style={{ fontSize: 13, fontWeight: 500, letterSpacing: "0.4em", textTransform: "uppercase", color: "var(--ink)" }}>
             DISCOVER
           </span>
           <button onClick={() => setOpen(false)} style={{ color: "var(--ink-faint)" }}>
@@ -154,7 +154,7 @@ function SidebarContent({
       {/* Logo */}
       <div className="shrink-0 flex items-center px-4 h-12" style={{ borderBottom: "1px solid var(--rule)" }}>
         <Link href="/admin" onClick={onNav}>
-          <span style={{ fontSize: 13, fontWeight: 600, letterSpacing: "0.3em", textTransform: "uppercase", color: "var(--ink)" }}>
+          <span style={{ fontSize: 13, fontWeight: 500, letterSpacing: "0.4em", textTransform: "uppercase", color: "var(--ink)" }}>
             DISCOVER
           </span>
           <span style={{ marginLeft: 6, fontSize: 10, fontWeight: 500, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--ink-faint)" }}>

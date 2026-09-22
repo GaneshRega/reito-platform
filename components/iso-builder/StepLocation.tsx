@@ -1,11 +1,35 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { MapPin } from "lucide-react";
-import localitiesData from "@/data/localities.json";
+import { useState } from "react";
+import { Search } from "lucide-react";
 
-interface LocalityEntry { name: string; city: string }
-interface ProjectEntry  { name: string; locality: string; city: string }
+/* ── Tag tiers — brand colours only ─────────────────────── */
+type TagTier = "hot" | "premium" | "growing" | "muted";
+
+const LOCALITIES: { name: string; tag: string; tier: TagTier }[] = [
+  { name: "Gachibowli",   tag: "High Demand",  tier: "hot"     },
+  { name: "Banjara Hills",tag: "High Demand",  tier: "hot"     },
+  { name: "Jubilee Hills",tag: "Premium",      tier: "premium" },
+  { name: "Kokapet",      tag: "New Launches", tier: "hot"     },
+  { name: "Kondapur",     tag: "Fast Growing", tier: "growing" },
+  { name: "Madhapur",     tag: "IT Hub",       tier: "growing" },
+  { name: "Nanakramguda", tag: "Finance City", tier: "growing" },
+  { name: "Nallagandla",  tag: "Upcoming",     tier: "muted"   },
+  { name: "Narsingi",     tag: "Upcoming",     tier: "muted"   },
+  { name: "Manikonda",    tag: "Value Pick",   tier: "muted"   },
+  { name: "Kukatpally",   tag: "Popular",      tier: "growing" },
+  { name: "Kompally",     tag: "Upcoming",     tier: "muted"   },
+  { name: "Begumpet",     tag: "Central",      tier: "muted"   },
+  { name: "Miyapur",      tag: "Affordable",   tier: "muted"   },
+  { name: "Sainikpuri",   tag: "Peaceful",     tier: "muted"   },
+];
+
+const TAG_COLOR: Record<TagTier, string> = {
+  hot:     "var(--gold)",
+  premium: "var(--ink)",
+  growing: "var(--ink-soft)",
+  muted:   "var(--ink-faint)",
+};
 
 interface Props {
   value: string;
@@ -13,173 +37,92 @@ interface Props {
 }
 
 export default function StepLocation({ value, onChange }: Props) {
-  const [query, setQuery] = useState(value);
+  const [query, setQuery] = useState("");
 
-  const filtered = useMemo(() => {
-    const q = query.toLowerCase().trim();
-    if (!q) return null;
-    return {
-      localities: (localitiesData.localities as LocalityEntry[]).filter((l) =>
-        l.name.toLowerCase().includes(q)
-      ),
-      cities: localitiesData.cities.filter((c) =>
-        c.toLowerCase().includes(q)
-      ),
-      projects: (localitiesData.projects as ProjectEntry[]).filter((p) =>
-        p.name.toLowerCase().includes(q) || p.locality.toLowerCase().includes(q)
-      ),
-    };
-  }, [query]);
+  const visible = query.trim()
+    ? LOCALITIES.filter((l) => l.name.toLowerCase().includes(query.toLowerCase()))
+    : LOCALITIES;
 
-  const pick = (label: string) => {
-    setQuery(label);
-    onChange(label);
-  };
-
-  const hasResults =
-    filtered &&
-    (filtered.localities.length > 0 ||
-      filtered.cities.length > 0 ||
-      filtered.projects.length > 0);
+  const pick = (name: string) => onChange(value === name ? "" : name);
 
   return (
-    <div className="w-full max-w-md mx-auto flex flex-col gap-6">
+    <div className="w-full max-w-2xl mx-auto flex flex-col gap-6">
+
       {/* Question */}
       <div className="text-center">
-        <h2
-          style={{
-            fontSize: "clamp(34px, 5vw, 56px)",
-            fontWeight: 500,
-            letterSpacing: "-0.03em",
-            lineHeight: 1.05,
-            color: "var(--ink)",
-          }}
-        >
-          Where are you looking?
+        <p style={{ fontSize: 11, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--ink-faint)", marginBottom: 12 }}>
+          Almost there
+        </p>
+        <h2 style={{ fontSize: "clamp(26px, 4vw, 46px)", fontWeight: 500, letterSpacing: "-0.03em", lineHeight: 1.06, color: "var(--ink)" }}>
+          Which part of Hyderabad?
         </h2>
+        <p style={{ fontSize: 14, color: "var(--ink-soft)", marginTop: 8 }}>
+          Pick your preferred area.
+        </p>
       </div>
 
-      {/* Search input */}
+      {/* Search */}
       <div className="relative">
-        <MapPin
-          size={16}
-          className="absolute left-4 top-1/2 -translate-y-1/2"
-          style={{ color: "var(--ink-faint)" }}
-        />
+        <Search size={13} className="absolute left-3.5 top-1/2 -translate-y-1/2" style={{ color: "var(--ink-faint)" }} />
         <input
           type="text"
           value={query}
-          onChange={(e) => {
-            setQuery(e.target.value);
-            if (!e.target.value) onChange("");
-          }}
-          placeholder="Locality, city or project…"
-          autoFocus
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Filter areas…"
           style={{
-            width: "100%",
-            paddingLeft: 40,
-            paddingRight: 16,
-            paddingTop: 14,
-            paddingBottom: 14,
-            borderRadius: "var(--r-input)",
-            border: "1.5px solid var(--rule)",
-            backgroundColor: "var(--paper-cool)",
-            fontSize: 15,
-            color: "var(--ink)",
-            outline: "none",
+            width: "100%", paddingLeft: 34, paddingRight: 14,
+            paddingTop: 8, paddingBottom: 8,
+            borderRadius: 9999,
+            border: "1px solid var(--rule)",
+            backgroundColor: "var(--paper-warm)",
+            fontSize: 13, color: "var(--ink)", outline: "none",
           }}
-          onFocus={(e) =>
-            (e.currentTarget.style.borderColor = "var(--ink)")
-          }
-          onBlur={(e) =>
-            (e.currentTarget.style.borderColor = "var(--rule)")
-          }
+          onFocus={(e) => (e.currentTarget.style.borderColor = "var(--ink-soft)")}
+          onBlur={(e)  => (e.currentTarget.style.borderColor = "var(--rule)")}
         />
       </div>
 
-      {/* Results */}
-      {hasResults && (
-        <div
-          className="rounded-[14px] overflow-hidden divide-y"
-          style={{
-            border: "1px solid var(--rule)",
-            backgroundColor: "var(--paper-cool)",
-          }}
-        >
-          {filtered.localities.length > 0 && (
-            <Group
-              label="Localities"
-              items={filtered.localities.map((l) => `${l.name}, ${l.city}`)}
-              onPick={pick}
-            />
-          )}
-          {filtered.cities.length > 0 && (
-            <Group label="Cities" items={filtered.cities} onPick={pick} />
-          )}
-          {filtered.projects.length > 0 && (
-            <Group
-              label="Projects"
-              items={filtered.projects.map(
-                (p) => `${p.name}, ${p.locality}`
-              )}
-              onPick={pick}
-            />
-          )}
-        </div>
-      )}
+      {/* 5-col compact grid */}
+      <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
+        {visible.map(({ name, tag, tier }) => {
+          const selected = value === name;
+          return (
+            <button
+              key={name}
+              onClick={() => pick(name)}
+              className="flex flex-col items-start gap-1 px-3 py-2.5 rounded-xl text-left transition-all duration-150"
+              style={{
+                border: selected ? "1.5px solid var(--ink)" : "1px solid var(--rule)",
+                backgroundColor: selected ? "var(--ink)" : "var(--paper-cool)",
+                cursor: "pointer",
+              }}
+              onMouseEnter={(e) => { if (!selected) e.currentTarget.style.backgroundColor = "var(--paper-warm)"; }}
+              onMouseLeave={(e) => { if (!selected) e.currentTarget.style.backgroundColor = "var(--paper-cool)"; }}
+            >
+              <p style={{
+                fontSize: 12, fontWeight: 600, lineHeight: 1.3,
+                color: selected ? "#FFFFFF" : "var(--ink)",
+                letterSpacing: "-0.01em",
+              }}>
+                {name}
+              </p>
+              <p style={{
+                fontSize: 10, fontWeight: 500, lineHeight: 1,
+                color: selected ? "rgba(255,255,255,0.55)" : TAG_COLOR[tier],
+                letterSpacing: "0.02em",
+              }}>
+                {tag}
+              </p>
+            </button>
+          );
+        })}
+      </div>
 
-      {query && !hasResults && filtered && (
-        <p
-          className="text-center text-sm"
-          style={{ color: "var(--ink-faint)" }}
-        >
-          No results for &ldquo;{query}&rdquo; — type a city or locality name.
+      {visible.length === 0 && (
+        <p className="text-center text-sm" style={{ color: "var(--ink-faint)" }}>
+          No areas match &ldquo;{query}&rdquo;
         </p>
       )}
-    </div>
-  );
-}
-
-function Group({
-  label,
-  items,
-  onPick,
-}: {
-  label: string;
-  items: string[];
-  onPick: (v: string) => void;
-}) {
-  return (
-    <div>
-      <p
-        className="px-4 pt-3 pb-1"
-        style={{
-          fontSize: 11,
-          fontWeight: 500,
-          textTransform: "uppercase",
-          letterSpacing: "0.14em",
-          color: "var(--ink-faint)",
-        }}
-      >
-        {label}
-      </p>
-      {items.map((item) => (
-        <button
-          key={item}
-          onClick={() => onPick(item)}
-          className="w-full text-left px-4 py-2.5 transition-colors"
-          style={{ fontSize: 14, color: "var(--ink-soft)" }}
-          onMouseEnter={(e) =>
-            (e.currentTarget.style.backgroundColor =
-              "rgba(33,29,25,0.04)")
-          }
-          onMouseLeave={(e) =>
-            (e.currentTarget.style.backgroundColor = "transparent")
-          }
-        >
-          {item}
-        </button>
-      ))}
     </div>
   );
 }

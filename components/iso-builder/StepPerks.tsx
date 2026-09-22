@@ -19,6 +19,9 @@ export default function StepPerks({ value, onChange }: Props) {
   return (
     <div className="w-full max-w-xl mx-auto flex flex-col gap-8">
       <div className="text-center">
+        <p style={{ fontSize: 12, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--ink-faint)", marginBottom: 14 }}>
+          Last question
+        </p>
         <h2
           style={{
             fontSize: "clamp(34px, 5vw, 56px)",
@@ -28,7 +31,7 @@ export default function StepPerks({ value, onChange }: Props) {
             color: "var(--ink)",
           }}
         >
-          What matters most?
+          What are your<br />must-haves?
         </h2>
       </div>
 

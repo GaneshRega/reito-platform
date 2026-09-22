@@ -68,7 +68,7 @@ export default async function HomeProfilePage({
         <Link
           href="/"
           style={{
-            fontWeight: 500, fontSize: 15,
+            fontWeight: 500, fontSize: 20,
             letterSpacing: "0.42em", textTransform: "uppercase",
             color: "var(--ink)",
           }}

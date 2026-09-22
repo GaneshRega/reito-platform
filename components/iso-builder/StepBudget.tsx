@@ -53,6 +53,9 @@ export default function StepBudget({ value, onChange }: Props) {
     <div className="flex flex-col items-center gap-10 w-full max-w-lg mx-auto">
       {/* ── Question ─────────────────────────────────────── */}
       <div className="text-center">
+        <p style={{ fontSize: 12, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--ink-faint)", marginBottom: 14 }}>
+          Help our AI narrow it down
+        </p>
         <h2
           style={{
             fontSize: "clamp(26px, 3.8vw, 46px)",

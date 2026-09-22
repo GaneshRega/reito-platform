@@ -70,9 +70,9 @@ export default function LoginPage() {
       <div className="mb-8 text-center">
         <p
           style={{
-            fontSize: 15,
-            fontWeight: 700,
-            letterSpacing: "0.35em",
+            fontSize: 20,
+            fontWeight: 500,
+            letterSpacing: "0.4em",
             textTransform: "uppercase",
             color: "var(--ink)",
           }}

@@ -26,6 +26,9 @@ export default function StepPropertyType({ value, onChange }: Props) {
   return (
     <div className="w-full max-w-2xl mx-auto flex flex-col gap-8">
       <div className="text-center">
+        <p style={{ fontSize: 12, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--ink-faint)", marginBottom: 14 }}>
+          First, tell our AI
+        </p>
         <h2
           style={{
             fontSize: "clamp(26px, 3.8vw, 46px)",
@@ -35,7 +38,7 @@ export default function StepPropertyType({ value, onChange }: Props) {
             color: "var(--ink)",
           }}
         >
-          What type of property<br />are you looking for?
+          What kind of home<br />are you looking for?
         </h2>
       </div>
 

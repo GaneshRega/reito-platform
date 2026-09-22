@@ -1,18 +1,17 @@
 "use client";
 
-import { useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { X, ArrowLeft } from "lucide-react";
 
-const STEP_GRADIENTS = [
-  "radial-gradient(ellipse 70% 60% at 20% 80%, #E8D9D0, transparent), radial-gradient(ellipse 60% 60% at 80% 10%, #D9CDC2, transparent)",
-  "radial-gradient(ellipse 80% 60% at 50% 100%, #E8D9D0, transparent), radial-gradient(ellipse 60% 60% at 90% 0%, #D9CDC2, transparent)",
-  "radial-gradient(ellipse 60% 70% at 10% 70%, #E8D9D0, transparent), radial-gradient(ellipse 70% 60% at 70% 20%, #D9CDC2, transparent)",
-  "radial-gradient(ellipse 80% 60% at 0% 50%, #E8D9D0, transparent), radial-gradient(ellipse 60% 60% at 100% 50%, #D9CDC2, transparent)",
-  "radial-gradient(ellipse 70% 80% at 30% 90%, #E8D9D0, transparent), radial-gradient(ellipse 60% 60% at 70% 0%, #D9CDC2, transparent)",
-];
+const CORNER_BG = [
+  "radial-gradient(circle at 0% 0%, rgba(200,175,145,0.72) 0%, rgba(200,175,145,0) 52%)",
+  "radial-gradient(circle at 100% 0%, rgba(200,175,145,0.65) 0%, rgba(200,175,145,0) 52%)",
+  "radial-gradient(circle at 0% 100%, rgba(200,175,145,0.72) 0%, rgba(200,175,145,0) 54%)",
+  "radial-gradient(circle at 100% 100%, rgba(200,175,145,0.65) 0%, rgba(200,175,145,0) 54%)",
+  "var(--paper)",
+].join(", ");
 
-const STEP_LABELS = ["Type", "Budget", "Location", "Perks", "Results"];
+const STEP_LABELS = ["Property", "Budget", "Location", "Lifestyle", "Matches"];
 
 interface Props {
   step: number;
@@ -35,25 +34,13 @@ export default function StepShell({
   children,
   stretch = false,
 }: Props) {
-  const reduced = useReducedMotion();
-  const gradient = STEP_GRADIENTS[step % STEP_GRADIENTS.length];
   const progress = ((step + 1) / totalSteps) * 100;
 
   return (
     <div
       className={`relative flex flex-col overflow-hidden ${stretch ? "h-screen" : "min-h-screen"}`}
-      style={{ backgroundColor: "var(--paper)" }}
+      style={{ background: CORNER_BG }}
     >
-      {/* Gradient background */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background: gradient,
-          opacity: 0.55,
-          filter: reduced ? "none" : "blur(60px)",
-        }}
-        aria-hidden
-      />
 
       {/* ── Top bar ────────────────────────────────────────── */}
       <header className="relative z-10 flex items-center justify-between px-5 pt-6 pb-4 shrink-0">
@@ -92,8 +79,8 @@ export default function StepShell({
             }}
           >
             {step < totalSteps - 1
-                ? `Question ${step + 1} of ${totalSteps - 1} · ${STEP_LABELS[step]}`
-                : "Results"}
+                ? `${step + 1} of ${totalSteps - 1} · ${STEP_LABELS[step]}`
+                : "Your AI Matches"}
           </p>
         </div>
 

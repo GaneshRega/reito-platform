@@ -44,6 +44,9 @@ export default function StepReady({ state, onPublish }: Props) {
 
       {/* ── Count headline ─────────────────────────────────── */}
       <div className="text-center flex flex-col gap-1.5">
+        <p style={{ fontSize: 12, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.14em", color: "var(--ink-faint)", marginBottom: 6 }}>
+          AI search complete
+        </p>
         <h2
           style={{
             fontSize: "clamp(26px, 4vw, 40px)",
@@ -54,8 +57,8 @@ export default function StepReady({ state, onPublish }: Props) {
           }}
         >
           {count > 0
-            ? `Your Home Match is ready! ${count} ${count === 1 ? "property" : "properties"} found.`
-            : "Your Home Match is ready!"}
+            ? `We found ${count} matching ${count === 1 ? "home" : "homes"} for you.`
+            : "Your AI profile is ready."}
         </h2>
         <p style={{ fontSize: 14, color: "var(--ink-soft)" }}>
           {locationLabel} · Up to {formatBudget(state.budget)} · {typeLabel}
@@ -141,10 +144,10 @@ export default function StepReady({ state, onPublish }: Props) {
                     lineHeight: 1.25,
                   }}
                 >
-                  {count} matching {count === 1 ? "home" : "homes"} waiting
+                  {count} {count === 1 ? "home" : "homes"} matched by AI
                 </p>
                 <p style={{ fontSize: 13, color: "var(--ink-soft)", lineHeight: 1.55 }}>
-                  Sign in and publish your Home Match to connect with owners
+                  Publish your Discover profile so matching owners can reach out directly
                 </p>
               </div>
 
@@ -158,7 +161,7 @@ export default function StepReady({ state, onPublish }: Props) {
                   fontSize: 14,
                 }}
               >
-                Sign in &amp; publish <ArrowRight size={15} />
+                Save &amp; publish <ArrowRight size={15} />
               </button>
             </div>
           </div>
@@ -172,7 +175,7 @@ export default function StepReady({ state, onPublish }: Props) {
             No listings matched your criteria yet.
           </p>
           <p style={{ fontSize: 14, color: "var(--ink-soft)" }}>
-            Publish your Home Match and we&apos;ll let you know when matching properties are listed.
+            Publish your Discover profile and we&apos;ll notify you as soon as matching properties are listed.
           </p>
         </div>
       )}

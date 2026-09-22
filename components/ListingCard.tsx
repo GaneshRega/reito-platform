@@ -14,9 +14,10 @@ const STATUS_STYLES: Record<string, string> = {
 
 interface Props {
   listing: Listing;
+  onClick?: () => void;
 }
 
-export default function ListingCard({ listing }: Props) {
+export default function ListingCard({ listing, onClick }: Props) {
   const imgSrc = listing.images[0];
 
   function handleBrochure(e: React.MouseEvent) {
@@ -50,7 +51,11 @@ export default function ListingCard({ listing }: Props) {
   }
 
   return (
-    <Link href={`/listings/${listing.id}`} className="group block">
+    <Link
+      href={`/listings/${listing.id}`}
+      className="group block"
+      onClick={onClick ? (e) => { e.preventDefault(); onClick(); } : undefined}
+    >
       <article className="bg-white rounded-2xl overflow-hidden shadow-[0_1px_3px_rgba(0,0,0,0.07),_0_8px_24px_rgba(0,0,0,0.05)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.10),_0_20px_48px_rgba(0,0,0,0.08)] transition-all duration-300 hover:-translate-y-1">
 
         {/* Image */}

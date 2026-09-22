@@ -104,7 +104,7 @@ export default async function ListingDetailPage({
         <Link
           href="/"
           style={{
-            fontWeight: 400,
+            fontWeight: 500,
             fontSize: 15,
             letterSpacing: "0.4em",
             textTransform: "uppercase",
@@ -158,11 +158,11 @@ export default async function ListingDetailPage({
             ))}
           </nav>
           <Link
-            href="/claim"
+            href="/sell"
             className="text-sm font-medium px-5 py-2 rounded-full transition-colors whitespace-nowrap"
             style={{ border: "1.5px solid var(--rule)", color: "var(--ink)" }}
           >
-            Feature your home
+            Sell your home
           </Link>
         </div>
       </header>
